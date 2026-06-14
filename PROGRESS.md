@@ -1,12 +1,12 @@
 # Progress
 
 ## Current focus
-Milestone 3: Library / Templates / Activity read screens.
+Milestone 4: BYOK keys (encryption + CRUD + settings UI).
 
 ## Milestones
 - [x] 1. Scaffold monorepo (pnpm + Turbo), shared package, Prisma schema + seed
 - [x] 2. Auth (NextAuth -> Nest JWT guard)
-- [ ] 3. Library / Templates / Activity read screens
+- [x] 3. Library / Templates / Activity read screens
 - [ ] 4. BYOK keys (encryption + CRUD + settings UI)
 - [ ] 5. AiProviderModule + 4 skills + JSON fallbacks
 - [ ] 6. New-project wizard -> scenario.generate
@@ -27,6 +27,10 @@ Milestone 3: Library / Templates / Activity read screens.
 2026-06-14 - Used OAuth-backed NextAuth with GitHub env hooks for Milestone 2 - satisfies the spec's OAuth option without adding email verification-token tables.
 2026-06-14 - Minted a short-lived `switchboard-api` JWT into the NextAuth session - Nest can validate API requests without reading browser cookies.
 2026-06-14 - Built `@switchboard/shared` as CommonJS for now - the Nest API runtime imports shared auth helpers directly.
+2026-06-14 - Starting Milestone 3 with shared read-model types first - API responses and server-rendered pages should stay contract-aligned.
+2026-06-14 - Added scoped read endpoints for `/projects`, `/templates`, and `/activity` - all user-owned database reads go through the Nest JWT guard.
+2026-06-14 - Server-rendered the read screens through the API client instead of importing Prisma in the web app - keeps writes and reads behind the gateway contract.
+2026-06-14 - Added only a stable API keys placeholder route in Milestone 3 - BYOK CRUD and the full settings UI belong to Milestone 4.
 
 ## Open questions / blockers
 None.
