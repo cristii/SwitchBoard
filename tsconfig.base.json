@@ -10,16 +10,13 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "paths": {
-      "@switchboard/shared": ["packages/shared/src/index.ts"],
-      "@switchboard/shared/*": ["packages/shared/src/*"]
-    },
     "types": ["node"]
   },
   "exclude": ["node_modules", "dist", ".next"]
 }
-
