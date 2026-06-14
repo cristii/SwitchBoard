@@ -1,0 +1,55 @@
+/* ============================================================
+   Switchboard — Typography tokens
+   Three families with distinct jobs:
+   - Display (Bricolage Grotesque): tight, heavy, -0.02em headings
+     & uppercase UI labels/buttons.
+   - Body (Inter): readable running text & inputs.
+   - Hand (Caveat): marginalia, asides, sticky-note copy.
+   ============================================================ */
+
+:root {
+  /* ---- Families ---- */
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body:    "Inter", system-ui, sans-serif;
+  --font-hand:    "Caveat", cursive;
+
+  /* ---- Weights ---- */
+  --fw-regular:   400; /* @kind font */
+  --fw-medium:    500; /* @kind font */
+  --fw-semibold:  600; /* @kind font */
+  --fw-bold:      700; /* @kind font */
+  --fw-black:     800; /* @kind font */
+
+  /* ---- Display type scale (Bricolage) ---- */
+  --fs-hero:      clamp(2.6rem, 5.4vw, 4.2rem); /* @kind font */
+  --fs-h2:        clamp(1.9rem, 3.4vw, 2.7rem); /* @kind font */
+  --fs-h3:        1.18rem; /* @kind font */
+  --fs-h4:        1rem; /* @kind font */
+
+  /* ---- Body scale (Inter) ---- */
+  --fs-lead:      1.06rem;  /* hero sub / lead paragraph */
+  --fs-body:      0.96rem;  /* default running text */
+  --fs-sm:        0.86rem;  /* secondary text */
+  --fs-xs:        0.74rem;  /* captions, footnotes */
+
+  /* ---- Label (uppercase Bricolage) ---- */
+  --fs-eyebrow:   0.72rem;
+  --fs-button:    0.86rem;
+
+  /* ---- Line heights ---- */
+  --lh-tight:     1.04; /* @kind font */
+  --lh-snug:      1.2; /* @kind font */
+  --lh-body:      1.55; /* @kind font */
+
+  /* ---- Letter spacing ---- */
+  --ls-display:   -0.02em; /* @kind font */
+  --ls-tight:     -0.03em; /* @kind font */
+  --ls-eyebrow:   0.14em; /* @kind font */
+  --ls-button:    0.02em; /* @kind font */
+
+  /* ============ Semantic aliases ============ */
+  --type-hero:    var(--fw-black) var(--fs-hero)/var(--lh-tight) var(--font-display); /* @kind font */
+  --type-h2:      var(--fw-black) var(--fs-h2)/var(--lh-tight) var(--font-display); /* @kind font */
+  --type-h3:      var(--fw-bold) var(--fs-h3)/1.2 var(--font-display); /* @kind font */
+  --type-body:    var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-body); /* @kind font */
+}

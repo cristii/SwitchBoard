@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum ChannelKind {
+  WHATSAPP
+  MESSENGER
+  INSTAGRAM
+  TELEGRAM
+  SMS
+  WEBCHAT
+  SLACK
+  DISCORD
+  TEAMS
+  EMAIL
+  N8N
+  ZAPIER
+  MAKE
+  VOICEFLOW
+}
+
+enum GoalKind {
+  LEAD
+  SUPPORT
+  BOOKING
+  FAQ
+  ORDER
+  RECO
+}
+
+enum ProviderKind {
+  ANTHROPIC
+  OPENAI
+  GOOGLE
+  MISTRAL
+  GROQ
+}
+
+enum MsgRole {
+  BOT
+  USER
+  SYSTEM
+}
+
+enum RunState {
+  IDLE
+  RUNNING
+  DONE
+  FAILED
+}
+
+enum ActivityType {
+  CREATE
+  VALIDATE
+  TEST
+  EDIT
+  KEY
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  name         String?
+  createdAt    DateTime      @default(now())
+  projects     Project[]
+  providerKeys ProviderKey[]
+  activity     Activity[]
+}
+
+model Project {
+  id            String           @id @default(cuid())
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  name          String
+  channel       ChannelKind
+  goal          GoalKind
+  difficulty    Difficulty
+  isDraft       Boolean          @default(true)
+  systemPrompt  String           @db.Text
+  temperature   Int              @default(35)
+  tone          String           @default("Warm")
+  score         Int?
+  scenario      Scenario?
+  conversations Conversation[]
+  validations   ValidationRun[]
+  channelLink   ChannelLink?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([userId, updatedAt])
+}
+
+model Scenario {
+  id          String        @id @default(cuid())
+  project     Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String        @unique
+  business    String
+  persona     String
+  situation   String
+  opener      String
+  objectives  String[]
+  generatedBy ProviderKind?
+  createdAt   DateTime      @default(now())
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  source    String    @default("test")
+  messages  Message[]
+  createdAt DateTime  @default(now())
+
+  @@index([projectId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId String
+  role           MsgRole
+  text           String       @db.Text
+  createdAt      DateTime     @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model ValidationRun {
+  id             String   @id @default(cuid())
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId      String
+  state          RunState @default(RUNNING)
+  score          Int?
+  verdict        String?
+  results        Json?
+  conversationId String?
+  createdAt      DateTime @default(now())
+
+  @@index([projectId, createdAt])
+}
+
+model ProviderKey {
+  id         String       @id @default(cuid())
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  provider   ProviderKind
+  ciphertext String
+  iv         String
+  authTag    String
+  last4      String
+  createdAt  DateTime     @default(now())
+
+  @@unique([userId, provider])
+}
+
+model ChannelLink {
+  id           String      @id @default(cuid())
+  project      Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId    String      @unique
+  channel      ChannelKind
+  webhookToken String      @unique
+  secretHash   String?
+  credentials  Json?
+  verified     Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+}
+
+model Activity {
+  id        String       @id @default(cuid())
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  type      ActivityType
+  title     String
+  detail    String
+  projectId String?
+  createdAt DateTime     @default(now())
+
+  @@index([userId, createdAt])
+}
+

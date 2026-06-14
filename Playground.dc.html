@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link rel="stylesheet" href="_ds/switchboard-design-system-2b7957c1-b1ac-40e5-8613-071920463716/styles.css" />
+<script src="_ds/switchboard-design-system-2b7957c1-b1ac-40e5-8613-071920463716/_ds_bundle.js"></script>
+<style>
+  @font-face{font-family:"Bricolage Grotesque";font-weight:500;font-display:swap;src:url("fonts/bricolage-500.woff2") format("woff2");}
+  @font-face{font-family:"Bricolage Grotesque";font-weight:600;font-display:swap;src:url("fonts/bricolage-600.woff2") format("woff2");}
+  @font-face{font-family:"Bricolage Grotesque";font-weight:700;font-display:swap;src:url("fonts/bricolage-700.woff2") format("woff2");}
+  @font-face{font-family:"Bricolage Grotesque";font-weight:800;font-display:swap;src:url("fonts/bricolage-800.woff2") format("woff2");}
+  @font-face{font-family:"Inter";font-weight:400;font-display:swap;src:url("fonts/inter-400.woff2") format("woff2");}
+  @font-face{font-family:"Inter";font-weight:500;font-display:swap;src:url("fonts/inter-500.woff2") format("woff2");}
+  @font-face{font-family:"Inter";font-weight:600;font-display:swap;src:url("fonts/inter-600.woff2") format("woff2");}
+  @font-face{font-family:"Caveat";font-weight:600;font-display:swap;src:url("fonts/caveat-600.woff2") format("woff2");}
+  @font-face{font-family:"Caveat";font-weight:700;font-display:swap;src:url("fonts/caveat-700.woff2") format("woff2");}
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-thumb{background:#cbd2c5;border-radius:6px;border:2px solid transparent;background-clip:content-box;}
+  ::-webkit-scrollbar-thumb:hover{background:#b9c2b6;background-clip:content-box;}
+  textarea,input{font-family:inherit;}
+  @keyframes popIn{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes blink{0%,80%,100%{opacity:.25;}40%{opacity:1;}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</helmet>
+<div style="display:flex;height:100vh;width:100%;overflow:hidden;font-family:Inter,system-ui,sans-serif;color:#15211F;background-color:#E9E8DF;background-image:linear-gradient(#15211F0a 1px,transparent 1px),linear-gradient(90deg,#15211F0a 1px,transparent 1px);background-size:34px 34px;">
+
+  <!-- ===================== SIDEBAR (the dark board) ===================== -->
+  <aside style="width:250px;flex:0 0 250px;background:#11201E;color:#E9E8DF;display:flex;flex-direction:column;padding:20px 16px;gap:22px;border-right:1.5px solid #15211F;">
+    <div style="display:flex;align-items:center;gap:11px;padding:2px 4px;">
+      <div style="width:38px;height:38px;border-radius:11px;background:#B45309;border:2px solid #E9E8DF;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:3px 3px 0 #00000040;">{{ markEl }}</div>
+      <div style="line-height:1;">
+        <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.06rem;letter-spacing:-0.02em;color:#F3F2EA;">Switchboard</div>
+        <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.6rem;letter-spacing:0.22em;color:#FBBF24;margin-top:3px;">PLAYGROUND</div>
+      </div>
+    </div>
+
+    <button onClick="{{ openNew }}" style="display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:12px;background:#B45309;color:#fff;border:2px solid #E9E8DF;border-radius:11px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.82rem;letter-spacing:0.02em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 #00000038;transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-2px);box-shadow:5px 5px 0 #00000038;">{{ plusEl }} New project</button>
+
+    <nav style="display:flex;flex-direction:column;gap:4px;">
+      <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.6rem;letter-spacing:0.2em;color:#E9E8DF80;padding:4px 10px 6px;">WORKSPACE</div>
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+        <button onClick="{{ item.onClick }}" style="{{ item.style }}" style-hover="color:#F3F2EA;">{{ item.iconEl }}<span>{{ item.label }}</span></button>
+      </sc-for>
+    </nav>
+
+    <div style="margin-top:auto;display:flex;flex-direction:column;gap:12px;">
+      <div style="border:1.5px solid #E9E8DF24;border-radius:12px;padding:13px 14px;background:#E9E8DF0a;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:{{ providerDotColor }};box-shadow:0 0 0 3px {{ providerDotColor }}30;"></span>
+          <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.64rem;letter-spacing:0.12em;color:#E9E8DFcc;">BYOK MODEL</span>
+        </div>
+        <div style="font-size:0.82rem;color:#F3F2EA;margin-top:7px;font-weight:500;">{{ providerLabel }}</div>
+        <button onClick="{{ goKeys }}" style="margin-top:9px;font-family:Inter;font-size:0.74rem;color:#FBBF24;background:none;border:none;padding:0;cursor:pointer;font-weight:600;">Manage keys →</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:4px 6px;">
+        <div style="width:32px;height:32px;border-radius:9px;background:#3F7A4E;border:1.5px solid #E9E8DF;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque';font-weight:700;color:#fff;font-size:0.8rem;">C</div>
+        <div style="line-height:1.2;">
+          <div style="font-size:0.8rem;color:#F3F2EA;font-weight:600;">Cristi Ș.</div>
+          <div style="font-size:0.7rem;color:#E9E8DF80;">Builder · Free</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================== MAIN ===================== -->
+  <main style="flex:1;min-width:0;overflow-y:auto;overflow-x:hidden;position:relative;">
+
+    <!-- ---------- LIBRARY ---------- -->
+    <sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="Library" style="max-width:1120px;margin:0 auto;padding:40px 44px 60px;animation:fadeUp .4s ease both;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:6px;">
+        <div>
+          <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Eyebrow" hint-size="auto,16px">Your library</x-import>
+          <h1 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:2.3rem;letter-spacing:-0.02em;line-height:1.04;margin:8px 0 0;">Build a bot. Break it.<br/>Learn <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.HandUnderline" hint-size="auto,1em">what holds.</x-import></h1>
+        </div>
+        <div style="font-family:Caveat;font-weight:600;font-size:1.18rem;color:#54605C;transform:rotate(-2deg);max-width:230px;line-height:1.15;">↳ every project runs on real API calls — not pretend ones</div>
+      </div>
+
+      <div style="display:flex;gap:14px;margin:26px 0 22px;flex-wrap:wrap;">
+        <sc-for list="{{ statsView }}" as="s" hint-placeholder-count="3">
+          <div style="flex:1;min-width:150px;background:#fff;border:1.5px solid #15211F;border-radius:14px;padding:15px 18px;box-shadow:4px 4px 0 #15211F1a;">
+            <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Stat" value="{{ s.value }}" label="{{ s.label }}" hint-size="auto,58px"></x-import>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:9px;flex:1;background:#fff;border:1.5px solid #B9C2B6;border-radius:10px;padding:9px 13px;">
+          {{ searchEl }}<input placeholder="Search your chatbots…" style="border:none;outline:none;background:none;font-size:0.9rem;color:#15211F;width:100%;" />
+        </div>
+        <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.72rem;letter-spacing:0.06em;color:#54605C;text-transform:uppercase;">{{ projectCount }} projects</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;">
+        <button onClick="{{ openNew }}" style="text-align:left;cursor:pointer;background:#E1E2D7;border:2px dashed #15211F66;border-radius:16px;padding:22px;min-height:184px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;color:#15211F;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease;" style-hover="transform:translateY(-3px);border-color:#B45309;box-shadow:5px 5px 0 #15211F1a;">
+          <div style="width:46px;height:46px;border-radius:13px;background:#B45309;border:2px solid #15211F;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:3px 3px 0 #15211F;">{{ plusBigEl }}</div>
+          <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;letter-spacing:-0.01em;">Start a new project</div>
+          <div style="font-size:0.8rem;color:#54605C;text-align:center;max-width:200px;">Pick a channel, get an AI scenario, start building in seconds.</div>
+        </button>
+
+        <sc-for list="{{ projectsView }}" as="p" hint-placeholder-count="5">
+          <button onClick="{{ p.onOpen }}" style="text-align:left;cursor:pointer;background:#fff;border:1.5px solid #15211F;border-radius:16px;padding:20px;min-height:184px;display:flex;flex-direction:column;gap:13px;box-shadow:4px 4px 0 #15211F1a;transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-3px);box-shadow:7px 7px 0 #15211F1f;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+                <div style="width:40px;height:40px;border-radius:11px;background:#E1E2D7;border:1.5px solid #15211F;display:flex;align-items:center;justify-content:center;color:#15211F;flex:0 0 auto;">{{ p.iconEl }}</div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.74rem;letter-spacing:0.04em;color:#54605C;text-transform:uppercase;">{{ p.platformName }}</div>
+              </div>
+              <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Badge" variant="{{ p.diffVariant }}" hint-size="auto,22px">{{ p.difficulty }}</x-import>
+            </div>
+            <div style="flex:1;">
+              <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.18rem;letter-spacing:-0.01em;line-height:1.12;">{{ p.name }}</div>
+              <div style="font-size:0.84rem;color:#54605C;margin-top:6px;line-height:1.4;">{{ p.scenario }}</div>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;border-top:1.5px solid #E1E2D7;padding-top:12px;">
+              <div style="display:flex;align-items:center;gap:7px;">{{ p.scoreEl }}<span style="font-size:0.78rem;color:#54605C;">{{ p.metaRight }}</span></div>
+              <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.74rem;color:#B45309;letter-spacing:0.02em;">Open →</span>
+            </div>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ---------- NEW PROJECT ---------- -->
+    <sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="New project" style="max-width:920px;margin:0 auto;padding:34px 44px 64px;animation:fadeUp .35s ease both;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <button onClick="{{ goLibrary }}" style="display:flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:#54605C;font-size:0.84rem;font-weight:600;padding:6px 0;">{{ backEl }} Back to library</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <sc-for list="{{ stepDots }}" as="d" hint-placeholder-count="3">
+            <span style="width:9px;height:9px;border-radius:50%;background:{{ d.color }};border:1.5px solid #15211F;"></span>
+          </sc-for>
+        </div>
+      </div>
+
+      <h1 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.95rem;letter-spacing:-0.02em;margin:10px 0 4px;">{{ newTitle }}</h1>
+      <p style="font-size:0.96rem;color:#54605C;margin:0 0 26px;max-width:560px;line-height:1.5;">{{ newSubtitle }}</p>
+
+      <!-- Step 1: channel -->
+      <sc-if value="{{ newStep0 }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <sc-for list="{{ platformGroupsView }}" as="g" hint-placeholder-count="2">
+          <div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.7rem;letter-spacing:0.14em;color:#15211F;text-transform:uppercase;margin-bottom:11px;display:flex;align-items:center;gap:9px;">{{ g.name }}<span style="flex:1;height:1.5px;background:#CBD2C5;"></span></div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:11px;">
+              <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+                <button onClick="{{ it.onClick }}" style="{{ it.style }}" style-hover="border-color:#B45309;transform:translateY(-2px);">
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <span style="{{ it.iconWrap }}">{{ it.iconEl }}</span>
+                    <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.92rem;letter-spacing:-0.01em;">{{ it.name }}</span>
+                  </div>
+                  <span style="font-size:0.76rem;color:#54605C;line-height:1.35;">{{ it.blurb }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <!-- Step 2: goal + difficulty -->
+      <sc-if value="{{ newStep1 }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:26px;">
+        <div>
+          <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:11px;">What should the bot accomplish?</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(244px,1fr));gap:11px;">
+            <sc-for list="{{ goalsView }}" as="go" hint-placeholder-count="6">
+              <button onClick="{{ go.onClick }}" style="{{ go.style }}" style-hover="border-color:#B45309;">
+                <span style="{{ go.iconWrap }}">{{ go.iconEl }}</span>
+                <span style="display:flex;flex-direction:column;gap:3px;text-align:left;">
+                  <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.92rem;letter-spacing:-0.01em;">{{ go.name }}</span>
+                  <span style="font-size:0.76rem;color:#54605C;line-height:1.3;">{{ go.desc }}</span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:11px;">How hard should it be?</div>
+          <div style="display:flex;gap:11px;flex-wrap:wrap;">
+            <sc-for list="{{ diffsView }}" as="df" hint-placeholder-count="3">
+              <button onClick="{{ df.onClick }}" style="{{ df.style }}">
+                <span style="width:10px;height:10px;border-radius:50%;background:{{ df.dot }};border:1.5px solid #15211F;"></span>
+                <span style="display:flex;flex-direction:column;text-align:left;line-height:1.2;">
+                  <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.9rem;">{{ df.name }}</span>
+                  <span style="font-size:0.74rem;color:#54605C;">{{ df.desc }}</span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- Step 3: generated scenario -->
+      <sc-if value="{{ newStep2 }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <sc-if value="{{ genLoading }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:60px 0;text-align:center;">
+            <div style="width:46px;height:46px;border-radius:50%;border:3px solid #E1E2D7;border-top-color:#B45309;animation:spin .8s linear infinite;"></div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:1.05rem;">Writing your scenario…</div>
+            <div style="font-size:0.86rem;color:#54605C;max-width:320px;">Your model is inventing a business, a customer, and the objectives you'll be graded on.</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ genReady }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1.5px solid #15211F;border-radius:16px;box-shadow:6px 6px 0 #15211F18;overflow:hidden;animation:popIn .3s ease both;">
+            <div style="background:#11201E;color:#E9E8DF;padding:18px 22px;display:flex;align-items:center;gap:13px;">
+              <span style="width:42px;height:42px;border-radius:11px;background:#B45309;border:2px solid #E9E8DF;display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 auto;">{{ genPlatformIcon }}</span>
+              <div style="flex:1;min-width:0;">
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.14em;color:#FBBF24;text-transform:uppercase;">Generated scenario · {{ genPlatformName }}</div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.3rem;letter-spacing:-0.01em;margin-top:3px;color:#F3F2EA;">{{ scnBusiness }}</div>
+              </div>
+              <button onClick="{{ regen }}" style="display:flex;align-items:center;gap:7px;background:#E9E8DF14;border:1.5px solid #E9E8DF40;color:#E9E8DF;border-radius:9px;padding:8px 13px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.72rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;">{{ refreshEl }} Reroll</button>
+            </div>
+            <div style="padding:22px;display:flex;flex-direction:column;gap:18px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div style="background:#E1E2D7;border:1.5px solid #B9C2B6;border-radius:12px;padding:14px 16px;">
+                  <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.64rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin-bottom:6px;">The customer</div>
+                  <div style="font-size:0.9rem;line-height:1.45;color:#232b29;">{{ scnPersona }}</div>
+                </div>
+                <div style="background:#E1E2D7;border:1.5px solid #B9C2B6;border-radius:12px;padding:14px 16px;">
+                  <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.64rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin-bottom:6px;">The situation</div>
+                  <div style="font-size:0.9rem;line-height:1.45;color:#232b29;">{{ scnSituation }}</div>
+                </div>
+              </div>
+              <div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.64rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin-bottom:9px;">You'll be graded on</div>
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                  <sc-for list="{{ scnObjectives }}" as="o" hint-placeholder-count="5">
+                    <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.9rem;line-height:1.4;">
+                      <span style="flex:0 0 auto;margin-top:1px;color:#B45309;">{{ o.iconEl }}</span><span>{{ o.text }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <!-- Footer nav -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:30px;">
+        <div style="font-family:Caveat;font-weight:600;font-size:1.1rem;color:#54605C;">{{ newHint }}</div>
+        <button onClick="{{ newPrimary }}" style="{{ newPrimaryStyle }}" style-hover="transform:translateY(-2px);box-shadow:5px 5px 0 #15211F;">{{ newPrimaryLabel }} {{ arrowEl }}</button>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ---------- WORKSPACE ---------- -->
+    <sc-if value="{{ isWorkspace }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Workspace" style="height:100%;display:flex;flex-direction:column;animation:fadeUp .35s ease both;">
+      <!-- workspace top bar -->
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 28px;border-bottom:1.5px solid #15211F;background:#E9E8DF;flex:0 0 auto;">
+        <button onClick="{{ goLibrary }}" style="display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;color:#54605C;font-size:0.82rem;font-weight:600;">{{ backEl }} Library</button>
+        <span style="width:1.5px;height:22px;background:#B9C2B6;"></span>
+        <div style="width:34px;height:34px;border-radius:10px;background:#fff;border:1.5px solid #15211F;display:flex;align-items:center;justify-content:center;">{{ wsIconEl }}</div>
+        <div style="line-height:1.15;min-width:0;">
+          <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;letter-spacing:-0.01em;">{{ wsName }}</div>
+          <div style="font-size:0.74rem;color:#54605C;">{{ wsPlatformName }} · {{ wsGoalName }}</div>
+        </div>
+        <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Badge" variant="{{ wsDiffVariant }}" hint-size="auto,22px">{{ wsDifficulty }}</x-import>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+          <div style="display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #B9C2B6;border-radius:10px;padding:6px 12px;">
+            <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.62rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;">Score</span>
+            <span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;color:{{ wsScoreColor }};">{{ wsScoreLabel }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- workspace body: 3 columns -->
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:300px 1fr 320px;">
+        <!-- LEFT: brief -->
+        <div style="border-right:1.5px solid #15211F;overflow-y:auto;padding:20px;background:#E1E2D7;display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.14em;color:#B45309;text-transform:uppercase;">Scenario brief</div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.18rem;letter-spacing:-0.01em;margin-top:5px;line-height:1.1;">{{ scnBusiness }}</div>
+          </div>
+          <div style="background:#fff;border:1.5px solid #15211F;border-radius:12px;padding:13px 15px;box-shadow:4px 4px 0 #15211F14;">
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.62rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin-bottom:6px;">Customer</div>
+            <div style="font-size:0.86rem;line-height:1.45;color:#232b29;">{{ scnPersona }}</div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.62rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin:13px 0 6px;">Situation</div>
+            <div style="font-size:0.86rem;line-height:1.45;color:#232b29;">{{ scnSituation }}</div>
+          </div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.62rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin-bottom:9px;">Objectives</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <sc-for list="{{ wsObjectives }}" as="o" hint-placeholder-count="5">
+                <div style="display:flex;align-items:flex-start;gap:9px;font-size:0.84rem;line-height:1.38;color:#232b29;">
+                  <span style="flex:0 0 auto;margin-top:1px;color:{{ o.color }};">{{ o.iconEl }}</span><span>{{ o.text }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-family:Caveat;font-weight:600;font-size:1.06rem;color:#54605C;transform:rotate(-1.5deg);line-height:1.2;margin-top:2px;">↳ {{ wsTip }}</div>
+        </div>
+
+        <!-- CENTER: build / test / connect -->
+        <div style="display:flex;flex-direction:column;min-width:0;background:#E9E8DF;">
+          <div style="display:flex;gap:4px;padding:12px 18px 0;border-bottom:1.5px solid #15211F;flex:0 0 auto;">
+            <sc-for list="{{ tabsView }}" as="t" hint-placeholder-count="3">
+              <button onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.iconEl }}<span>{{ t.label }}</span></button>
+            </sc-for>
+          </div>
+
+          <!-- BUILD -->
+          <sc-if value="{{ wsBuild }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1;min-height:0;overflow-y:auto;padding:22px;">
+            <div style="max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:18px;">
+              <div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                  <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;letter-spacing:-0.01em;">The bot's brain</div>
+                  <button onClick="{{ aiDraft }}" style="display:flex;align-items:center;gap:7px;background:#FBE8CF;border:1.5px solid #92400E;color:#92400E;border-radius:9px;padding:7px 12px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.72rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;">{{ sparkEl }} {{ draftLabel }}</button>
+                </div>
+                <div style="font-size:0.82rem;color:#54605C;margin-bottom:10px;line-height:1.45;">This system prompt is what your model receives on every turn. Write how the bot greets, what it must ask, and where it should stop.</div>
+                <textarea value="{{ systemPrompt }}" onChange="{{ onPromptChange }}" placeholder="You are the assistant for…" style="width:100%;min-height:230px;resize:vertical;border:1.5px solid #15211F;border-radius:12px;padding:14px 15px;font-size:0.9rem;line-height:1.55;color:#15211F;background:#fff;outline:none;box-shadow:4px 4px 0 #15211F12;"></textarea>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                <div style="background:#fff;border:1.5px solid #B9C2B6;border-radius:12px;padding:14px 16px;">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.8rem;">Temperature</span>
+                    <span style="font-family:'Bricolage Grotesque';font-weight:800;font-size:0.9rem;color:#B45309;">{{ tempLabel }}</span>
+                  </div>
+                  <input type="range" min="0" max="100" value="{{ tempVal }}" onChange="{{ onTempChange }}" style="width:100%;accent-color:#B45309;" />
+                  <div style="font-size:0.74rem;color:#54605C;margin-top:4px;">{{ tempHint }}</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #B9C2B6;border-radius:12px;padding:14px 16px;">
+                  <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.8rem;margin-bottom:9px;">Tone</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:7px;">
+                    <sc-for list="{{ tonesView }}" as="tn" hint-placeholder-count="4">
+                      <button onClick="{{ tn.onClick }}" style="{{ tn.style }}">{{ tn.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- TEST -->
+          <sc-if value="{{ wsTest }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+            <div style="padding:11px 20px;border-bottom:1.5px solid #B9C2B6;display:flex;align-items:center;gap:9px;background:#E1E2D7;flex:0 0 auto;">
+              <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.7rem;letter-spacing:0.06em;color:#54605C;text-transform:uppercase;">You're the customer</span>
+              <span style="font-size:0.78rem;color:#54605C;">— message your bot and see how it really replies.</span>
+              <button onClick="{{ resetChat }}" style="margin-left:auto;display:flex;align-items:center;gap:6px;background:none;border:1.5px solid #B9C2B6;border-radius:8px;padding:5px 10px;font-size:0.74rem;font-weight:600;color:#54605C;cursor:pointer;">{{ refreshEl }} Reset</button>
+            </div>
+            <div style="flex:1;min-height:0;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:11px;">
+              <sc-for list="{{ chatView }}" as="m" hint-placeholder-count="2">
+                <div style="{{ m.wrap }}">
+                  <sc-if value="{{ m.isBot }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:6px;font-size:0.68rem;color:#54605C;margin-bottom:4px;font-weight:600;"><span style="width:15px;height:15px;border-radius:5px;background:#B45309;display:inline-block;"></span>{{ wsName }}</div></sc-if>
+                  <div style="{{ m.bubble }}">{{ m.text }}</div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ chatBusy }}" hint-placeholder-val="{{ false }}">
+                <div style="align-self:flex-start;display:flex;gap:5px;background:#fff;border:1.5px solid #B9C2B6;border-radius:13px;border-bottom-left-radius:4px;padding:12px 14px;">
+                  <span style="width:7px;height:7px;border-radius:50%;background:#54605C;animation:blink 1.2s infinite;"></span>
+                  <span style="width:7px;height:7px;border-radius:50%;background:#54605C;animation:blink 1.2s infinite .2s;"></span>
+                  <span style="width:7px;height:7px;border-radius:50%;background:#54605C;animation:blink 1.2s infinite .4s;"></span>
+                </div>
+              </sc-if>
+            </div>
+            <div style="padding:14px 20px;border-top:1.5px solid #15211F;background:#E1E2D7;flex:0 0 auto;">
+              <div style="display:flex;gap:10px;align-items:flex-end;">
+                <textarea value="{{ chatInput }}" onChange="{{ onChatInput }}" onKeyDown="{{ onChatKey }}" placeholder="Type as the customer…" rows="1" style="flex:1;resize:none;border:1.5px solid #15211F;border-radius:11px;padding:11px 13px;font-size:0.9rem;line-height:1.4;background:#fff;outline:none;max-height:120px;"></textarea>
+                <button onClick="{{ sendChat }}" style="display:flex;align-items:center;justify-content:center;gap:7px;background:#B45309;color:#fff;border:2px solid #15211F;border-radius:11px;padding:11px 16px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.78rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 #15211F;flex:0 0 auto;" style-hover="transform:translateY(-2px);box-shadow:5px 5px 0 #15211F;">{{ sendEl }} Send</button>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- CONNECT -->
+          <sc-if value="{{ wsConnect }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;min-height:0;overflow-y:auto;padding:22px;">
+            <div style="max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+              <div style="background:#11201E;color:#E9E8DF;border-radius:14px;padding:18px 20px;border:1.5px solid #15211F;box-shadow:4px 4px 0 #15211F22;">
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.14em;color:#FBBF24;text-transform:uppercase;">Ship it to {{ wsPlatformName }}</div>
+                <div style="font-size:0.88rem;line-height:1.5;color:#E9E8DFcc;margin-top:7px;">{{ connectIntro }}</div>
+              </div>
+              <div style="background:#fff;border:1.5px solid #15211F;border-radius:12px;padding:16px 18px;box-shadow:4px 4px 0 #15211F14;">
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.8rem;margin-bottom:9px;">Inbound webhook</div>
+                <div style="display:flex;gap:9px;align-items:center;background:#E1E2D7;border:1.5px solid #B9C2B6;border-radius:9px;padding:9px 12px;font-family:ui-monospace,monospace;font-size:0.8rem;color:#15211F;overflow:hidden;">
+                  <span style="color:#B45309;">POST</span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ webhookUrl }}</span>
+                  <button onClick="{{ copyHook }}" style="margin-left:auto;background:#15211F;color:#E9E8DF;border:none;border-radius:7px;padding:5px 10px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;flex:0 0 auto;">{{ copyLabel }}</button>
+                </div>
+                <div style="font-size:0.78rem;color:#54605C;margin-top:9px;line-height:1.45;">Point your {{ wsPlatformName }} integration here. Each message hits your model with the system prompt above, and the reply is sent back on the same channel.</div>
+              </div>
+              <div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.62rem;letter-spacing:0.1em;color:#54605C;text-transform:uppercase;margin-bottom:9px;">Wiring steps</div>
+                <div style="display:flex;flex-direction:column;gap:9px;">
+                  <sc-for list="{{ connectSteps }}" as="st" hint-placeholder-count="4">
+                    <div style="display:flex;gap:11px;align-items:flex-start;background:#fff;border:1.5px solid #B9C2B6;border-radius:11px;padding:12px 14px;">
+                      <span style="flex:0 0 auto;width:24px;height:24px;border-radius:7px;background:#E1E2D7;border:1.5px solid #15211F;display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque';font-weight:800;font-size:0.8rem;">{{ st.n }}</span>
+                      <span style="font-size:0.86rem;line-height:1.45;color:#232b29;">{{ st.text }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <!-- RIGHT: validation -->
+        <div style="border-left:1.5px solid #15211F;overflow-y:auto;background:#E1E2D7;display:flex;flex-direction:column;">
+          <div style="padding:18px 18px 14px;border-bottom:1.5px solid #B9C2B6;">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.05rem;letter-spacing:-0.01em;">AI validation</div>
+              {{ validTargetEl }}
+            </div>
+            <div style="font-size:0.8rem;color:#54605C;margin-top:4px;line-height:1.4;">Your model reads the test transcript and grades it against the objectives.</div>
+            <button onClick="{{ runValidation }}" style="margin-top:13px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:#15211F;color:#E9E8DF;border:2px solid #15211F;border-radius:11px;padding:11px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 #B45309;transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-2px);box-shadow:5px 5px 0 #B45309;">{{ validBtnIcon }} {{ validBtnLabel }}</button>
+          </div>
+
+          <div style="flex:1;padding:16px 18px;">
+            <sc-if value="{{ validIdle }}" hint-placeholder-val="{{ true }}">
+              <div style="text-align:center;padding:34px 10px;color:#54605C;">
+                <div style="width:52px;height:52px;border-radius:14px;background:#fff;border:1.5px solid #B9C2B6;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;color:#54605C;">{{ targetBigEl }}</div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.92rem;color:#15211F;">No run yet</div>
+                <div style="font-size:0.82rem;margin-top:5px;line-height:1.45;">Chat with your bot in <b style="color:#15211F;">Test</b>, then run a check to see how it scored.</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ validRunning }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center;padding:34px 10px;">
+                <div style="width:40px;height:40px;border-radius:50%;border:3px solid #fff;border-top-color:#B45309;animation:spin .8s linear infinite;margin:0 auto 14px;"></div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.92rem;">Grading the transcript…</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ validDone }}" hint-placeholder-val="{{ false }}">
+              <div style="animation:popIn .3s ease both;">
+                <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid #15211F;border-radius:13px;padding:14px 16px;box-shadow:4px 4px 0 #15211F14;margin-bottom:14px;">
+                  <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:2.1rem;letter-spacing:-0.02em;color:{{ wsScoreColor }};line-height:1;">{{ wsScoreLabel }}</div>
+                  <div style="line-height:1.25;">
+                    <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.86rem;">{{ validVerdict }}</div>
+                    <div style="font-size:0.78rem;color:#54605C;">{{ validPassCount }}</div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:9px;">
+                  <sc-for list="{{ validResults }}" as="r" hint-placeholder-count="5">
+                    <div style="background:#fff;border:1.5px solid {{ r.border }};border-radius:11px;padding:11px 13px;">
+                      <div style="display:flex;align-items:flex-start;gap:9px;">
+                        <span style="flex:0 0 auto;margin-top:1px;color:{{ r.color }};">{{ r.iconEl }}</span>
+                        <div style="min-width:0;">
+                          <div style="font-size:0.84rem;font-weight:600;line-height:1.35;color:#15211F;">{{ r.label }}</div>
+                          <div style="font-size:0.78rem;color:#54605C;margin-top:3px;line-height:1.4;">{{ r.note }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ---------- API KEYS ---------- -->
+    <sc-if value="{{ isKeys }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="API keys" style="max-width:880px;margin:0 auto;padding:40px 44px 64px;animation:fadeUp .35s ease both;">
+      <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Eyebrow" hint-size="auto,16px">Bring your own keys</x-import>
+      <h1 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:2rem;letter-spacing:-0.02em;margin:8px 0 6px;">Connect a model. It's yours.</h1>
+      <p style="font-size:0.96rem;color:#54605C;max-width:560px;line-height:1.5;margin:0 0 8px;">Scenarios, bot replies, and validation all run on <b style="color:#15211F;">your</b> provider — real API calls, billed to you. Keys are stored only in this browser, never on our servers.</p>
+      <div style="font-family:Caveat;font-weight:600;font-size:1.12rem;color:#54605C;transform:rotate(-1.5deg);margin-bottom:24px;">↳ no key? the playground falls back to a built-in demo model so you can still poke around</div>
+
+      <div style="display:flex;flex-direction:column;gap:13px;">
+        <sc-for list="{{ providersView }}" as="pv" hint-placeholder-count="5">
+          <div style="background:#fff;border:1.5px solid #15211F;border-radius:14px;padding:16px 18px;box-shadow:4px 4px 0 #15211F14;display:flex;align-items:center;gap:15px;flex-wrap:wrap;">
+            <div style="width:44px;height:44px;border-radius:11px;background:#E1E2D7;border:1.5px solid #15211F;display:flex;align-items:center;justify-content:center;color:#15211F;flex:0 0 auto;">{{ pv.iconEl }}</div>
+            <div style="min-width:150px;flex:0 0 auto;">
+              <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1rem;letter-spacing:-0.01em;">{{ pv.name }}</div>
+              <div style="font-size:0.78rem;color:#54605C;">{{ pv.models }}</div>
+            </div>
+            <div style="flex:1;min-width:180px;display:flex;align-items:center;gap:9px;background:#E9E8DF;border:1.5px solid #B9C2B6;border-radius:9px;padding:8px 12px;">
+              {{ keyEl }}<input value="{{ pv.value }}" onChange="{{ pv.onChange }}" type="password" placeholder="{{ pv.placeholder }}" style="border:none;outline:none;background:none;font-size:0.84rem;width:100%;font-family:ui-monospace,monospace;color:#15211F;" />
+            </div>
+            <button onClick="{{ pv.onSave }}" style="{{ pv.btnStyle }}" style-hover="transform:translateY(-2px);box-shadow:5px 5px 0 #15211F;">{{ pv.btnLabel }}</button>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:28px;background:#E1E2D7;border:1.5px solid #B9C2B6;border-radius:14px;padding:18px 20px;">
+        <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.12em;color:#54605C;text-transform:uppercase;margin-bottom:6px;">Channel credentials</div>
+        <div style="font-size:0.88rem;color:#54605C;line-height:1.5;">When you're ready to ship a bot to a real channel, add its tokens here — WhatsApp Cloud API, Messenger Page tokens, Telegram bot keys, Twilio SID, SMTP/IMAP. The playground keeps them scoped to each project.</div>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ---------- TEMPLATES ---------- -->
+    <sc-if value="{{ isTemplates }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Templates" style="max-width:1120px;margin:0 auto;padding:40px 44px 60px;animation:fadeUp .4s ease both;">
+      <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Eyebrow" hint-size="auto,16px">Starter templates</x-import>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:8px 0 0;">
+        <h1 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:2.1rem;letter-spacing:-0.02em;line-height:1.05;margin:0;">Skip the blank page.<br/>Start from a proven build.</h1>
+        <div style="font-family:Caveat;font-weight:600;font-size:1.16rem;color:#54605C;transform:rotate(-2deg);max-width:240px;line-height:1.15;">↳ each one drops you straight into a ready scenario</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:26px;">
+        <sc-for list="{{ templatesView }}" as="t" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:13px;background:#fff;border:1.5px solid #15211F;border-radius:16px;padding:20px;box-shadow:4px 4px 0 #15211F1a;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div style="display:flex;align-items:center;gap:10px;min-width:0;">
+                <div style="width:40px;height:40px;border-radius:11px;background:#E1E2D7;border:1.5px solid #15211F;display:flex;align-items:center;justify-content:center;color:#15211F;flex:0 0 auto;">{{ t.iconEl }}</div>
+                <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.74rem;letter-spacing:0.04em;color:#54605C;text-transform:uppercase;">{{ t.platformName }}</div>
+              </div>
+              <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Badge" variant="{{ t.diffVariant }}" hint-size="auto,22px">{{ t.difficulty }}</x-import>
+            </div>
+            <div style="flex:1;">
+              <div style="font-family:'Bricolage Grotesque';font-weight:800;font-size:1.16rem;letter-spacing:-0.01em;line-height:1.12;">{{ t.name }}</div>
+              <div style="font-size:0.84rem;color:#54605C;margin-top:6px;line-height:1.4;">{{ t.blurb }}</div>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <sc-for list="{{ t.tags }}" as="tg" hint-placeholder-count="2">
+                <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.04em;color:#54605C;background:#E1E2D7;border:1.5px solid #B9C2B6;border-radius:7px;padding:3px 9px;">{{ tg.label }}</span>
+              </sc-for>
+            </div>
+            <button onClick="{{ t.onUse }}" style="margin-top:2px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;background:#B45309;color:#fff;border:2px solid #15211F;border-radius:11px;font-family:'Bricolage Grotesque';font-weight:700;font-size:0.76rem;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 #15211F;transition:transform .12s ease,box-shadow .12s ease;" style-hover="transform:translateY(-2px);box-shadow:5px 5px 0 #15211F;">{{ sparkEl }} Use this template</button>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+
+    <!-- ---------- ACTIVITY ---------- -->
+    <sc-if value="{{ isActivity }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="Activity" style="max-width:760px;margin:0 auto;padding:40px 44px 60px;animation:fadeUp .4s ease both;">
+      <x-import component-from-global-scope="SwitchboardDesignSystem_2b7957.Eyebrow" hint-size="auto,16px">Activity</x-import>
+      <h1 style="font-family:'Bricolage Grotesque';font-weight:800;font-size:2.1rem;letter-spacing:-0.02em;line-height:1.05;margin:8px 0 4px;">Everything you've tried</h1>
+      <p style="font-size:0.94rem;color:#54605C;margin:0 0 26px;line-height:1.5;">A running log of what you built, tested, and how it scored — your learning trail.</p>
+
+      <sc-if value="{{ activityEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:50px 20px;color:#54605C;background:#fff;border:1.5px dashed #B9C2B6;border-radius:16px;">
+          <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:1rem;color:#15211F;">Nothing here yet</div>
+          <div style="font-size:0.86rem;margin-top:5px;">Build and test a bot — your activity shows up here.</div>
+        </div>
+      </sc-if>
+
+      <div style="display:flex;flex-direction:column;">
+        <sc-for list="{{ activityView }}" as="a" hint-placeholder-count="5">
+          <div style="display:flex;gap:15px;align-items:flex-start;">
+            <div style="display:flex;flex-direction:column;align-items:center;align-self:stretch;flex:0 0 auto;">
+              <div style="width:38px;height:38px;border-radius:11px;background:#fff;border:1.5px solid #15211F;display:flex;align-items:center;justify-content:center;color:{{ a.dotColor }};box-shadow:3px 3px 0 #15211F12;">{{ a.iconEl }}</div>
+              <div style="flex:1;width:1.5px;background:#CBD2C5;margin:4px 0;min-height:14px;"></div>
+            </div>
+            <div style="flex:1;padding-bottom:20px;min-width:0;">
+              <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+                <span style="font-family:'Bricolage Grotesque';font-weight:700;font-size:0.66rem;letter-spacing:0.06em;text-transform:uppercase;color:{{ a.dotColor }};">{{ a.kind }}</span>
+                <span style="font-size:0.78rem;color:#54605C;">{{ a.when }}</span>
+              </div>
+              <div style="font-family:'Bricolage Grotesque';font-weight:700;font-size:1rem;letter-spacing:-0.01em;margin-top:3px;">{{ a.title }}</div>
+              <div style="font-size:0.86rem;color:#54605C;margin-top:3px;line-height:1.4;">{{ a.detail }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+    </sc-if>
+
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      screen: 'library',
+      // new project flow
+      newStep: 0,
+      selPlatform: null,
+      selGoal: null,
+      selDiff: 'Intermediate',
+      genLoading: false,
+      genScenario: null,
+      // workspace
+      active: null,
+      scenario: null,
+      systemPrompt: '',
+      temp: 35,
+      tone: 'Warm',
+      tab: 'build',
+      chat: [],
+      chatInput: '',
+      chatBusy: false,
+      valState: 'idle', // idle | running | done
+      valResults: [],
+      valScore: 0,
+      copied: false,
+      draftBusy: false,
+      // keys
+      keys: { anthropic:'', openai:'', google:'', mistral:'', groq:'' },
+      savedKey: null,
+      projects: this.seedProjects(),
+      activity: this.seedActivity(),
+    };
+  }
+
+  /* ---------------- static data ---------------- */
+  PLATFORMS = [
+    {key:'whatsapp', name:'WhatsApp', group:'Channels', blurb:'Business messaging at scale'},
+    {key:'messenger', name:'Messenger', group:'Channels', blurb:'Facebook Page inbox'},
+    {key:'instagram', name:'Instagram DM', group:'Channels', blurb:'Comments & direct messages'},
+    {key:'telegram', name:'Telegram', group:'Channels', blurb:'Open, fast bot API'},
+    {key:'sms', name:'SMS / Twilio', group:'Channels', blurb:'Plain-text everywhere reach'},
+    {key:'webchat', name:'Website widget', group:'Channels', blurb:'Embed on any site'},
+    {key:'slack', name:'Slack', group:'Team chat', blurb:'Internal helpdesk bots'},
+    {key:'discord', name:'Discord', group:'Team chat', blurb:'Community support & mods'},
+    {key:'teams', name:'MS Teams', group:'Team chat', blurb:'Enterprise messaging'},
+    {key:'email', name:'Email inbox', group:'Email', blurb:'Gmail / IMAP auto-replies'},
+    {key:'n8n', name:'n8n', group:'Automation engines', blurb:'Open-source workflows'},
+    {key:'zapier', name:'Zapier', group:'Automation engines', blurb:'7,000+ app Zaps'},
+    {key:'make', name:'Make', group:'Automation engines', blurb:'Visual scenarios'},
+    {key:'voiceflow', name:'Voiceflow', group:'Automation engines', blurb:'Conversation design'},
+  ];
+  GROUP_ORDER = ['Channels','Team chat','Email','Automation engines'];
+  GOALS = [
+    {key:'lead', name:'Lead qualification', desc:'Greet, qualify, capture contact'},
+    {key:'support', name:'Customer support', desc:'Resolve issues, deflect tickets'},
+    {key:'booking', name:'Appointment booking', desc:'Find a slot and confirm it'},
+    {key:'faq', name:'FAQ deflection', desc:'Answer top questions instantly'},
+    {key:'order', name:'Order tracking', desc:'Look up status, set expectations'},
+    {key:'reco', name:'Product recommendation', desc:'Ask needs, suggest the right pick'},
+  ];
+  DIFFS = [
+    {key:'Beginner', name:'Beginner', desc:'Friendly, forgiving customer', dot:'#3F7A4E'},
+    {key:'Intermediate', name:'Intermediate', desc:'Vague, a little impatient', dot:'#92400E'},
+    {key:'Advanced', name:'Advanced', desc:'Edge cases & curveballs', dot:'#6A4A8A'},
+  ];
+  TONES = ['Warm','Snappy','Formal','Playful'];
+  DIFF_TINT = { Beginner:{bg:'#E6EFE4',fg:'#3F7A4E'}, Intermediate:{bg:'#FBE8CF',fg:'#92400E'}, Advanced:{bg:'#E9E0F0',fg:'#6A4A8A'} };
+  DIFF_VARIANT = { Beginner:'green', Intermediate:'amber', Advanced:'violet' };
+  PROVIDERS = [
+    {key:'anthropic', name:'Anthropic', models:'Claude 4 family', placeholder:'sk-ant-…'},
+    {key:'openai', name:'OpenAI', models:'GPT-4o / o-series', placeholder:'sk-…'},
+    {key:'google', name:'Google', models:'Gemini 2.x', placeholder:'AIza…'},
+    {key:'mistral', name:'Mistral', models:'Large / Small', placeholder:'…'},
+    {key:'groq', name:'Groq', models:'Llama 3.x · fast', placeholder:'gsk_…'},
+  ];
+  TEMPLATES = [
+    {id:'t1', key:'whatsapp', goal:'booking', difficulty:'Beginner', name:'Restaurant reservations', blurb:'Takes table bookings, confirms party size, handles "are you open?".', tags:['Bookings','Hospitality']},
+    {id:'t2', key:'webchat', goal:'lead', difficulty:'Intermediate', name:'Website lead catcher', blurb:'Greets visitors, qualifies the project, captures an email for sales.', tags:['Lead gen','B2B']},
+    {id:'t3', key:'instagram', goal:'reco', difficulty:'Intermediate', name:'DM product finder', blurb:'Asks two questions and recommends the right product from your catalog.', tags:['E-commerce','Sales']},
+    {id:'t4', key:'email', goal:'support', difficulty:'Advanced', name:'Tier-1 support inbox', blurb:'Drafts replies to common tickets and escalates anything it cannot solve.', tags:['Support','Deflection']},
+    {id:'t5', key:'telegram', goal:'faq', difficulty:'Beginner', name:'Community FAQ bot', blurb:'Answers the top 20 questions in a product group, instantly.', tags:['Community','FAQ']},
+    {id:'t6', key:'n8n', goal:'lead', difficulty:'Advanced', name:'n8n lead router', blurb:'Scores inbound leads, then routes warm ones to a sales workflow.', tags:['Automation','Workflows']},
+    {id:'t7', key:'messenger', goal:'order', difficulty:'Intermediate', name:'Order status replies', blurb:'Reads an order number from chat and returns a clear status.', tags:['E-commerce','Post-sale']},
+    {id:'t8', key:'slack', goal:'faq', difficulty:'Intermediate', name:'Internal IT helpdesk', blurb:'First-line answers for "how do I…" questions inside your workspace.', tags:['Internal','IT']},
+  ];
+  ACTIVITY_META = {
+    create:{icon:'spark', color:'#B45309', kind:'Created'},
+    validate:{icon:'target', color:'#3F7A4E', kind:'Validated'},
+    test:{icon:'chat', color:'#6A4A8A', kind:'Tested'},
+    edit:{icon:'wrench', color:'#54605C', kind:'Edited'},
+    key:{icon:'key', color:'#92400E', kind:'Keys'},
+  };
+  seedActivity(){
+    return [
+      {type:'validate', title:'Bistro booking assistant', detail:'Scored 82% — missed "confirm the slot back to her"', when:'2h ago'},
+      {type:'test', title:'Bistro booking assistant', detail:'Ran a 6-message test conversation', when:'2h ago'},
+      {type:'validate', title:'SaaS onboarding helper', detail:'Scored 95% — all objectives met', when:'yesterday'},
+      {type:'create', title:'Skincare product picker', detail:'New project from Instagram DM scenario', when:'4 days ago'},
+      {type:'edit', title:'Agency lead router', detail:'Updated the system prompt & temperature', when:'4 days ago'},
+      {type:'key', title:'Connected a model', detail:'Added an Anthropic API key', when:'1 week ago'},
+    ];
+  }
+
+  seedProjects(){
+    return [
+      {id:'p1', key:'whatsapp', goal:'booking', name:'Bistro booking assistant', scenario:'Books tables and handles "are you open?" after hours.', difficulty:'Intermediate', score:82, meta:'edited 2h ago'},
+      {id:'p2', key:'webchat', goal:'faq', name:'SaaS onboarding helper', scenario:'Deflects setup questions for a project-tracking tool.', difficulty:'Beginner', score:95, meta:'edited yesterday'},
+      {id:'p3', key:'n8n', goal:'lead', name:'Agency lead router', scenario:'Qualifies inbound leads, then hands warm ones to sales.', difficulty:'Advanced', score:68, meta:'edited 3d ago'},
+      {id:'p4', key:'instagram', goal:'reco', name:'Skincare product picker', scenario:'Asks about skin type and recommends one SKU.', difficulty:'Intermediate', score:74, meta:'edited 4d ago'},
+      {id:'p5', key:'email', goal:'order', name:'Order status auto-reply', scenario:'Reads order numbers and answers "where is it?".', difficulty:'Beginner', score:88, meta:'edited 6d ago'},
+      {id:'p6', key:'telegram', goal:'support', name:'Community support bot', scenario:'First-line answers for a Telegram product group.', difficulty:'Advanced', score:0, meta:'draft', draft:true},
+    ];
+  }
+
+  /* ---------------- icon factory ---------------- */
+  ic(name, size){
+    const s = size || 22;
+    const E = React.createElement;
+    const svg = (kids) => E('svg', {width:s, height:s, viewBox:'0 0 24 24', fill:'none', stroke:'currentColor', strokeWidth:1.8, strokeLinecap:'round', strokeLinejoin:'round'}, kids);
+    const P = (d,k) => E('path', {d, key:k||d.slice(0,6)});
+    const C = (cx,cy,r,k) => E('circle', {cx,cy,r,key:k||('c'+cx+cy)});
+    const L = (x1,y1,x2,y2,k) => E('line', {x1,y1,x2,y2,key:k||('l'+x1+y1+x2+y2)});
+    const R = (x,y,w,h,rx,k) => E('rect',{x,y,width:w,height:h,rx:rx||2,key:k||('r'+x+y)});
+    const M = {
+      // platforms (conceptual line icons, on-brand)
+      whatsapp: [P('M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2.1-5.3A8.5 8.5 0 1 1 21 11.5Z'), P('M8.5 9.2c0 3 2.3 5.3 5.3 5.3'), C(9.3,9.6,0.4), C(13.5,13.9,0.4)],
+      messenger: [P('M12 3c-5 0-9 3.7-9 8.3 0 2.6 1.3 4.9 3.3 6.4V21l3-1.6c.86.2 1.76.3 2.7.3 5 0 9-3.7 9-8.4S17 3 12 3Z'), P('M7.5 13.5 11 10l2.3 2.2L16.5 10')],
+      instagram: [R(3.5,3.5,17,17,5), C(12,12,3.6), C(17,7,0.5)],
+      telegram: [P('M21 4 3 11l5 2 2 6 3-4 5 4 3-15Z'), P('M8 13l9-6')],
+      sms: [P('M21 11.5a7.5 7.5 0 0 1-10.6 6.8L4 20l1.4-4A7.5 7.5 0 1 1 21 11.5Z'), L(8.5,11,8.6,11), L(12,11,12.1,11), L(15.5,11,15.6,11)],
+      webchat: [R(3,4,18,14,3), L(3,8.5,21,8.5), C(6,6.2,0.3), C(8,6.2,0.3), P('M9 13h6')],
+      slack: [R(5,5,6,6,2.2), R(13,5,6,6,2.2), R(5,13,6,6,2.2), R(13,13,6,6,2.2)],
+      discord: [P('M8 7.5c2.6-1 5.4-1 8 0'), P('M8 16.5c2.6 1 5.4 1 8 0'), P('M8 7.5 6 17c1.4 1.2 3 1.8 4.6 2l.9-1.7'), P('M16 7.5 18 17c-1.4 1.2-3 1.8-4.6 2l-.9-1.7'), C(9.5,12.5,1), C(14.5,12.5,1)],
+      teams: [C(9,9,2.4), P('M4.5 18c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4'), C(16,8.5,1.7), P('M15 14.2c2 .2 3.5 1.6 3.5 3.8')],
+      email: [R(3,5,18,14,3), P('M4 7l8 6 8-6')],
+      n8n: [C(5,12,2), C(19,6,2), C(19,18,2), C(12,12,1.4), P('M6.7 11l3.9-1'), P('M13.4 11.2 17 7'), P('M13.4 12.8 17 17')],
+      zapier: [P('M13 2 4 14h7l-1 8 9-12h-7l1-8Z')],
+      make: [C(7.5,8,3.2), C(15.5,8,3.2), C(11.5,15,3.2)],
+      voiceflow: [L(5,10,5,14), L(8.5,7,8.5,17), L(12,4.5,12,19.5), L(15.5,8,15.5,16), L(19,10.5,19,13.5)],
+      // ui
+      grid:[R(4,4,7,7,2), R(13,4,7,7,2), R(4,13,7,7,2), R(13,13,7,7,2)],
+      book:[P('M5 4.5h11a2 2 0 0 1 2 2V20H7a2 2 0 0 1-2-2V4.5Z'), P('M18 16H7a2 2 0 0 0-2 2')],
+      key:[C(8,15,3.5), P('M10.5 12.5 19 4'), P('M16 7l2 2'), P('M14 9l1.5 1.5')],
+      activity:[P('M4 13h3l2-6 3 12 2.5-7H20')],
+      plus:[L(12,5,12,19), L(5,12,19,12)],
+      search:[C(11,11,6.5), L(20,20,16,16)],
+      spark:[P('M12 4l1.6 4.4L18 10l-4.4 1.6L12 16l-1.6-4.4L6 10l4.4-1.6L12 4Z'), L(18.5,4.5,18.5,7.5), L(17,6,20,6)],
+      send:[P('M21 4 3 11l7 2 2 7 9-16Z'), P('M10 13l5-5')],
+      check:[P('M5 12.5 10 17l9-10')],
+      target:[C(12,12,8), C(12,12,4), C(12,12,0.7)],
+      refresh:[P('M19 8a7 7 0 1 0 1.2 6'), P('M19 3v5h-5')],
+      back:[P('M14 6l-6 6 6 6')],
+      arrow:[L(5,12,19,12), P('M13 6l6 6-6 6')],
+      flow:[R(4,4,6,5,1.6), R(14,15,6,5,1.6), P('M7 9v4a2 2 0 0 0 2 2h5')],
+      chat:[P('M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2.1-5.3A8.5 8.5 0 1 1 21 11.5Z')],
+      wrench:[P('M14.5 6a3.5 3.5 0 0 0 4.5 4.5L21 8.5 19 6.5 17 8l-1-1 1.5-1.5L15.5 3.5 13.5 5.5A3.5 3.5 0 0 0 14.5 6Z'), L(13.5,9.5,5,18), R(3.5,17,3,3,1)],
+      circ:[C(12,12,8)],
+    };
+    return svg(M[name] || M.circ);
+  }
+
+  /* ---------------- scenario builders ---------------- */
+  fallbackScenario(goalKey, diff){
+    const map = {
+      lead:{biz:'Northbeam Studio — a 6-person web design agency', persona:'Dana, a café owner who needs a new site but is vague on budget and timeline.', sit:'She DMs after hours asking roughly what a project costs.', opener:'Hey, do you build sites for cafés? Roughly what would that run me?', obj:['Open with a warm, on-brand greeting','Ask at least two qualifying questions','Surface a budget or timeline','Capture a name and one contact detail','Propose a clear next step']},
+      support:{biz:'Cloudpost — a SaaS that schedules social posts', persona:'Marco, a frustrated user whose posts failed to publish this morning.', sit:'He wants to know what broke and whether it will happen again.', opener:"My scheduled posts didn't go out this morning. What's going on?", obj:['Acknowledge the problem with empathy','Ask for the account or post reference','Give an accurate, concise explanation','Offer a human handoff if unresolved','Confirm the issue is handled']},
+      booking:{biz:'The Fold — a neighbourhood hair salon', persona:'Priya, who wants a cut and colour sometime this week.', sit:'She messages the salon page hoping to grab a slot fast.', opener:'Hi! Can I get a cut and colour sometime this week?', obj:['Greet and confirm the service wanted','Offer 2–3 concrete time options','Confirm the chosen slot back to her','Collect a name and contact','Send a clear confirmation']},
+      faq:{biz:'Trailhead Gear — an outdoor e-commerce shop', persona:'A shopper unsure whether a jacket is truly waterproof.', sit:'They ask a product question before buying.', opener:'Do your jackets actually work in heavy rain or just drizzle?', obj:['Understand the question before answering','Answer in two sentences or fewer','Point to a source or spec','Offer a relevant follow-up','Escalate if it is out of scope']},
+      order:{biz:'Cocoa Lane — an online chocolate shop', persona:'A customer whose delivery is late and is getting anxious.', sit:'They quote an order number and want a status.', opener:'Where is my order? It was due yesterday — #CL-4821.', obj:['Ask for or read the order number','State the current status clearly','Give a realistic delivery window','Offer to notify on updates','Stay calm with the frustration']},
+      reco:{biz:'Verda Skincare — a clean-beauty brand', persona:'A shopper with dry, sensitive skin who hates greasy products.', sit:'They want a single confident recommendation.', opener:'I want something for dry, sensitive skin but nothing greasy. Ideas?', obj:['Ask about the use-case or skin type','Narrow with one or two follow-ups','Recommend a single best-fit product','Explain why in one line','Invite them to the next step']},
+    };
+    const g = map[goalKey] || map.lead;
+    return { business:g.biz, persona:g.persona, situation:g.sit, opener:g.opener, objectives:g.obj };
+  }
+
+  starterPrompt(scn, goalName){
+    return `You are the assistant for ${scn.business}.\n\nGoal: ${goalName}.\n\nHow to behave:\n- Greet warmly and get to the point in one short message.\n- Ask one question at a time; never interrogate.\n- Stay accurate — if you don't know, say so and offer a human.\n- Keep replies to 1–3 sentences.\n\nNever invent prices, stock, or facts you weren't given.`;
+  }
+
+  async aiText(prompt){
+    try{
+      if (window.claude && window.claude.complete){
+        const r = await window.claude.complete(prompt);
+        return (typeof r === 'string') ? r : (r && r.text) || '';
+      }
+    }catch(e){}
+    return '';
+  }
+  parseJSON(txt){
+    if(!txt) return null;
+    let t = txt.trim().replace(/^```[a-z]*\n?/i,'').replace(/```$/,'').trim();
+    const a = t.indexOf('{'), b = t.lastIndexOf('}');
+    const c = t.indexOf('['), d = t.lastIndexOf(']');
+    let slice = t;
+    if(a>=0 && b>a && (c<0 || a<c)) slice = t.slice(a,b+1);
+    else if(c>=0 && d>c) slice = t.slice(c,d+1);
+    try{ return JSON.parse(slice); }catch(e){ return null; }
+  }
+
+  /* ---------------- navigation ---------------- */
+  go(screen){ this.setState({screen}); const m=document.querySelector('main'); if(m) m.scrollTop=0; }
+  openNew = () => this.setState({screen:'newproject', newStep:0, selPlatform:null, selGoal:null, selDiff:'Intermediate', genScenario:null, genLoading:false});
+
+  useTemplate = (t) => {
+    this.setState({screen:'newproject', newStep:2, selPlatform:t.key, selGoal:t.goal, selDiff:t.difficulty, genScenario:null, genLoading:true});
+    const m=document.querySelector('main'); if(m) m.scrollTop=0;
+    this.runGenerate();
+  };
+
+  openProject = (p) => {
+    const goal = this.GOALS.find(g=>g.key===p.goal) || this.GOALS[0];
+    const scn = this.fallbackScenario(p.goal, p.difficulty);
+    this.setState({
+      screen:'workspace', active:p, scenario:scn, tab:'build',
+      systemPrompt: this.starterPrompt(scn, goal.name),
+      chat: [{role:'bot', text:scn.opener ? this.kickoff(scn) : 'Hi there — how can I help today?'}],
+      chatInput:'', chatBusy:false, valState:'idle', valResults:[], valScore:p.score||0,
+    });
+    const m=document.querySelector('main'); if(m) m.scrollTop=0;
+  };
+  kickoff(scn){ return 'Hi! Thanks for reaching out to ' + scn.business.split('—')[0].trim() + '. How can I help?'; }
+
+  /* ---------------- new project steps ---------------- */
+  pickPlatform = (k) => this.setState({selPlatform:k});
+  pickGoal = (k) => this.setState({selGoal:k});
+  pickDiff = (k) => this.setState({selDiff:k});
+  goLibrary = () => this.go('library');
+  goKeys = () => this.go('keys');
+
+  async runGenerate(){
+    const { selPlatform, selGoal, selDiff } = this.state;
+    const goal = this.GOALS.find(g=>g.key===selGoal) || this.GOALS[0];
+    const plat = this.PLATFORMS.find(p=>p.key===selPlatform) || this.PLATFORMS[0];
+    this.setState({newStep:2, genLoading:true, genScenario:null});
+    const prompt = `Invent a short, realistic practice scenario for someone learning to build an AI chatbot.\nChannel: ${plat.name}. Bot goal: ${goal.name}. Difficulty: ${selDiff}.\nReturn ONLY JSON: {"business":"Name — one-line description","persona":"one sentence about the customer","situation":"one sentence on what they want now","opener":"the customer's first message","objectives":["5 concise, gradeable objectives"]}.\nMake it specific and a little distinct. No markdown.`;
+    const txt = await this.aiText(prompt);
+    const parsed = this.parseJSON(txt);
+    let scn;
+    if(parsed && parsed.business && Array.isArray(parsed.objectives) && parsed.objectives.length){
+      scn = { business:parsed.business, persona:parsed.persona||'', situation:parsed.situation||'', opener:parsed.opener||'', objectives:parsed.objectives.slice(0,6) };
+    } else {
+      scn = this.fallbackScenario(selGoal, selDiff);
+    }
+    this.setState({genScenario:scn, genLoading:false});
+  }
+  regen = () => this.runGenerate();
+
+  newPrimaryAction = () => {
+    const st = this.state;
+    if(st.newStep===0){ if(st.selPlatform) this.setState({newStep:1}); return; }
+    if(st.newStep===1){ if(st.selGoal){ this.runGenerate(); } return; }
+    if(st.newStep===2){ if(st.genScenario && !st.genLoading) this.createProject(); }
+  };
+
+  createProject(){
+    const st = this.state;
+    const goal = this.GOALS.find(g=>g.key===st.selGoal) || this.GOALS[0];
+    const plat = this.PLATFORMS.find(p=>p.key===st.selPlatform) || this.PLATFORMS[0];
+    const scn = st.genScenario;
+    const name = scn.business.split('—')[0].trim() + ' bot';
+    const proj = { id:'p'+Date.now(), key:plat.key, goal:goal.key, name, scenario:(scn.situation||goal.desc), difficulty:st.selDiff, score:0, meta:'just now', draft:true };
+    this.setState(s => ({ projects:[proj, ...s.projects] }));
+    this.setState({
+      screen:'workspace', active:proj, scenario:scn, tab:'build',
+      systemPrompt:this.starterPrompt(scn, goal.name),
+      chat:[{role:'bot', text:this.kickoff(scn)}],
+      chatInput:'', chatBusy:false, valState:'idle', valResults:[], valScore:0,
+    });
+  }
+
+  /* ---------------- workspace: build ---------------- */
+  onPromptChange = (e) => this.setState({systemPrompt:e.target.value});
+  onTempChange = (e) => this.setState({temp:parseInt(e.target.value,10)});
+  pickTone = (t) => this.setState({tone:t});
+  setTab = (tab) => this.setState({tab});
+  async aiDraftPrompt(){
+    if(this.state.draftBusy) return;
+    const scn = this.state.scenario;
+    const goal = this.GOALS.find(g=>g.key===(this.state.active&&this.state.active.goal)) || this.GOALS[0];
+    this.setState({draftBusy:true});
+    const prompt = `Write a system prompt for a customer-facing chatbot.\nBusiness: ${scn.business}\nGoal: ${goal.name}\nTone: ${this.state.tone}\nIt must guide the bot to meet these objectives: ${(scn.objectives||[]).join('; ')}.\nReturn ONLY the system prompt text — no preamble, no markdown, under 130 words.`;
+    const txt = await this.aiText(prompt);
+    this.setState({ systemPrompt: (txt && txt.trim()) ? txt.trim() : this.starterPrompt(scn, goal.name), draftBusy:false });
+  }
+  aiDraft = () => this.aiDraftPrompt();
+
+  /* ---------------- workspace: test chat ---------------- */
+  onChatInput = (e) => this.setState({chatInput:e.target.value});
+  onChatKey = (e) => { if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); this.doSend(); } };
+  sendChat = () => this.doSend();
+  resetChat = () => { const scn=this.state.scenario; this.setState({chat:[{role:'bot', text:this.kickoff(scn)}], chatInput:'', valState:'idle', valResults:[]}); };
+
+  async doSend(){
+    const text = this.state.chatInput.trim();
+    if(!text || this.state.chatBusy) return;
+    const newChat = [...this.state.chat, {role:'user', text}];
+    this.setState({chat:newChat, chatInput:'', chatBusy:true});
+    const scn = this.state.scenario;
+    const convo = newChat.map(m => (m.role==='bot'?'Bot':'Customer')+': '+m.text).join('\n');
+    const prompt = `You ARE a customer-service chatbot. This is your configuration:\n"""\n${this.state.systemPrompt}\n"""\nTone: ${this.state.tone}.\nReply to the customer's latest message as the bot — 1 to 3 short sentences, on-brand, no role labels.\n\nConversation so far:\n${convo}\n\nBot:`;
+    let reply = await this.aiText(prompt);
+    reply = (reply||'').replace(/^Bot:\s*/i,'').trim();
+    if(!reply) reply = this.fallbackReply(text, scn);
+    this.setState(s => ({chat:[...s.chat, {role:'bot', text:reply}], chatBusy:false}));
+  }
+  fallbackReply(userText, scn){
+    const opts = [
+      'Happy to help with that! Could you tell me a little more so I point you the right way?',
+      'Good question — let me sort that for you. What\u2019s the best detail to start with?',
+      'Thanks for reaching out. I can take care of this — just need one quick detail from you.',
+    ];
+    return opts[(userText.length) % opts.length];
+  }
+
+  /* ---------------- workspace: validation ---------------- */
+  runValidation = () => this.doValidate();
+  async doValidate(){
+    if(this.state.valState==='running') return;
+    const scn = this.state.scenario;
+    const objectives = scn.objectives || [];
+    const botTurns = this.state.chat.filter(m=>m.role==='bot');
+    if(botTurns.length<=1){ this.setTab('test'); return; }
+    this.setState({valState:'running', screen:'workspace'});
+    const transcript = this.state.chat.map(m => (m.role==='bot'?'Bot':'Customer')+': '+m.text).join('\n');
+    const prompt = `You are grading a chatbot test for a learner.\nObjectives:\n${objectives.map((o,i)=>(i+1)+'. '+o).join('\n')}\n\nTranscript:\n${transcript}\n\nFor EACH objective return whether the bot met it. Return ONLY JSON: {"results":[{"objective":"...","met":true,"note":"one short, specific coaching note"}]}. Be fair but strict.`;
+    const txt = await this.aiText(prompt);
+    const parsed = this.parseJSON(txt);
+    let results;
+    if(parsed && Array.isArray(parsed.results) && parsed.results.length){
+      results = objectives.map((o,i) => {
+        const r = parsed.results[i] || {};
+        return { label:o, pass:!!r.met, note:r.note || (r.met?'Covered well.':'Not addressed in the test yet.') };
+      });
+    } else {
+      results = this.heuristicValidate(objectives);
+    }
+    const passed = results.filter(r=>r.pass).length;
+    const score = Math.round(passed/Math.max(1,results.length)*100);
+    const projects = this.state.projects.map(p => p.id===(this.state.active&&this.state.active.id) ? {...p, score, draft:false, meta:'just now'} : p);
+    this.setState({valState:'done', valResults:results, valScore:score, projects});
+  }
+  heuristicValidate(objectives){
+    const botText = this.state.chat.filter(m=>m.role==='bot').map(m=>m.text.toLowerCase()).join(' ');
+    const turns = this.state.chat.filter(m=>m.role==='bot').length;
+    return objectives.map((o,i) => {
+      const asksQ = botText.includes('?');
+      const pass = (i < Math.min(objectives.length, Math.ceil(turns*0.9))) && (i!==1 || asksQ);
+      return { label:o, pass, note: pass ? 'Looks covered in the transcript.' : 'Keep testing — this wasn\u2019t clearly handled yet.' };
+    });
+  }
+
+  /* ---------------- connect ---------------- */
+  copyHook = () => { try{ navigator.clipboard && navigator.clipboard.writeText(this.webhook()); }catch(e){} this.setState({copied:true}); setTimeout(()=>this.setState({copied:false}),1400); };
+  webhook(){ const k=(this.state.active&&this.state.active.key)||'bot'; const id=(this.state.active&&this.state.active.id)||'demo'; return `https://hooks.playground.switchboard.dev/${k}/${id}`; }
+
+  /* ---------------- keys ---------------- */
+  onKey = (k) => (e) => this.setState(s => ({keys:{...s.keys, [k]:e.target.value}}));
+  saveKey = (k) => () => { this.setState({savedKey:k}); setTimeout(()=>{ if(this.state.savedKey===k) this.setState({savedKey:null}); }, 1600); };
+
+  /* ---------------- render ---------------- */
+  renderVals(){
+    const st = this.state;
+    const ink='#15211F', orange='#B45309', soft='#54605C', paper='#E9E8DF';
+
+    // sidebar nav
+    const navDefs = [
+      {key:'library', label:'Projects', icon:'grid'},
+      {key:'templates', label:'Templates', icon:'book'},
+      {key:'keys', label:'API keys', icon:'key'},
+      {key:'activity', label:'Activity', icon:'activity'},
+    ];
+    const navItems = navDefs.map(n => {
+      const onScreen = (n.key==='library' && (st.screen==='library'||st.screen==='workspace'||st.screen==='newproject')) || (n.key==='keys' && st.screen==='keys') || (n.key==='templates' && st.screen==='templates') || (n.key==='activity' && st.screen==='activity');
+      const active = onScreen;
+      return {
+        label:n.label,
+        iconEl:this.ic(n.icon,19),
+        onClick: () => this.go(n.key),
+        style: {
+          display:'flex', alignItems:'center', gap:'11px', width:'100%', padding:'10px 12px',
+          background: active ? 'rgba(233,232,223,0.10)' : 'transparent',
+          border:'none', borderLeft: active ? '2px solid #B45309' : '2px solid transparent',
+          borderRadius:'8px', cursor:'pointer', textAlign:'left',
+          color: active ? '#F3F2EA' : 'rgba(233,232,223,0.66)',
+          fontFamily:"'Bricolage Grotesque'", fontWeight:700, fontSize:'0.84rem', letterSpacing:'-0.01em',
+          transition:'color .12s ease, background .12s ease',
+        },
+      };
+    });
+
+    const savedProvider = st.savedKey || (st.keys.anthropic?'anthropic':st.keys.openai?'openai':st.keys.google?'google':null);
+    const provHas = this.PROVIDERS.find(p=>st.keys[p.key]);
+    const providerLabel = provHas ? (provHas.name + ' · ' + provHas.models.split('·')[0].trim()) : 'Built-in demo model';
+    const providerDotColor = provHas ? '#3F7A4E' : '#FBBF24';
+
+    const base = {
+      markEl:this.ic('chat',20), plusEl:this.ic('plus',17), plusBigEl:this.ic('plus',24),
+      searchEl:this.ic('search',17), backEl:this.ic('back',17), arrowEl:this.ic('arrow',17),
+      refreshEl:this.ic('refresh',15), sparkEl:this.ic('spark',15), sendEl:this.ic('send',16),
+      keyEl:this.ic('key',16), targetBigEl:this.ic('target',24),
+      navItems, openNew:this.openNew, goLibrary:this.goLibrary, goKeys:this.goKeys,
+      providerLabel, providerDotColor,
+      isLibrary: st.screen==='library', isNew: st.screen==='newproject',
+      isWorkspace: st.screen==='workspace', isKeys: st.screen==='keys',
+      isTemplates: st.screen==='templates', isActivity: st.screen==='activity',
+    };
+
+    /* ---- TEMPLATES ---- */
+    const templatesView = this.TEMPLATES.map(t => {
+      const plat = this.PLATFORMS.find(x=>x.key===t.key) || this.PLATFORMS[0];
+      const goal = this.GOALS.find(g=>g.key===t.goal) || this.GOALS[0];
+      const tint = this.DIFF_TINT[t.difficulty] || this.DIFF_TINT.Intermediate;
+      return {
+        ...t, platformName:plat.name, iconEl:this.ic(plat.key,21), goalName:goal.name,
+        diffVariant:this.DIFF_VARIANT[t.difficulty]||'amber',
+        tags: t.tags.map(x=>({label:x})),
+        onUse: () => this.useTemplate(t),
+      };
+    });
+
+    /* ---- ACTIVITY ---- */
+    const activityView = st.activity.map(a => {
+      const meta = this.ACTIVITY_META[a.type] || this.ACTIVITY_META.edit;
+      return {
+        title:a.title, detail:a.detail, when:a.when,
+        iconEl:this.ic(meta.icon,17), dotColor:meta.color, kind:meta.kind,
+      };
+    });
+    const activityEmpty = st.activity.length===0;
+
+    /* ---- LIBRARY ---- */
+    const projectsView = st.projects.map(p => {
+      const plat = this.PLATFORMS.find(x=>x.key===p.key) || this.PLATFORMS[0];
+      const tint = this.DIFF_TINT[p.difficulty] || this.DIFF_TINT.Intermediate;
+      const scoreEl = p.draft || !p.score
+        ? React.createElement('span', {style:{fontFamily:"'Bricolage Grotesque'",fontWeight:700,fontSize:'0.74rem',color:soft,background:'#E1E2D7',border:'1.5px solid #B9C2B6',borderRadius:'6px',padding:'1px 7px'}}, 'Draft')
+        : React.createElement('span', {style:{display:'inline-flex',alignItems:'center',gap:'5px'}},
+            React.createElement('span',{style:{color: p.score>=85?'#3F7A4E':p.score>=70?'#B45309':'#92400E'}}, this.ic('target',15)),
+            React.createElement('b',{style:{fontFamily:"'Bricolage Grotesque'",fontWeight:800,fontSize:'0.92rem',color:ink}}, p.score));
+      return {
+        ...p, platformName:plat.name, iconEl:this.ic(plat.key,21),
+        diffBg:tint.bg, diffFg:tint.fg, diffVariant:this.DIFF_VARIANT[p.difficulty]||'amber', scoreEl, metaRight:p.meta, onOpen: () => this.openProject(p),
+      };
+    });
+    const avg = Math.round(st.projects.filter(p=>p.score).reduce((a,p)=>a+p.score,0) / Math.max(1, st.projects.filter(p=>p.score).length));
+    const statsView = [
+      {value:String(st.projects.length), label:'Chatbots in your library', color:ink},
+      {value:avg+'%', label:'Average validation score', color:'#3F7A4E'},
+      {value:String(new Set(st.projects.map(p=>p.key)).size), label:'Channels practised', color:orange},
+    ];
+
+    /* ---- NEW PROJECT ---- */
+    const selPad = (active) => ({
+      display:'flex', flexDirection:'column', gap:'8px', textAlign:'left', cursor:'pointer',
+      background:'#fff', border: active?'2px solid #B45309':'1.5px solid #15211F', borderRadius:'13px',
+      padding:'14px', boxShadow: active?'4px 4px 0 #B4530933':'4px 4px 0 #15211F12',
+      transition:'transform .12s ease, border-color .12s ease', position:'relative',
+    });
+    const iconWrap = (active) => `display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;border:1.5px solid #15211F;color:#15211F;background:${active?'#FBE8CF':'#E1E2D7'};flex:0 0 auto;`;
+    const platformGroupsView = this.GROUP_ORDER.map(gn => ({
+      name:gn,
+      items: this.PLATFORMS.filter(p=>p.group===gn).map(p => {
+        const active = st.selPlatform===p.key;
+        return { name:p.name, blurb:p.blurb, iconEl:this.ic(p.key,18), iconWrap:iconWrap(active), style:selPad(active), onClick: () => this.pickPlatform(p.key) };
+      }),
+    }));
+    const goalsView = this.GOALS.map(g => {
+      const active = st.selGoal===g.key;
+      const s = selPad(active); s.flexDirection='row'; s.alignItems='flex-start'; s.gap='12px';
+      return { name:g.name, desc:g.desc, iconEl:this.ic('flow',18), iconWrap:iconWrap(active), style:s, onClick: () => this.pickGoal(g.key) };
+    });
+    const diffsView = this.DIFFS.map(d => {
+      const active = st.selDiff===d.key;
+      return {
+        name:d.name, desc:d.desc, dot:d.dot, onClick: () => this.pickDiff(d.key),
+        style:{ display:'flex', alignItems:'center', gap:'11px', cursor:'pointer', background:'#fff',
+          border: active?'2px solid #B45309':'1.5px solid #15211F', borderRadius:'12px', padding:'12px 15px',
+          boxShadow: active?'4px 4px 0 #B4530933':'4px 4px 0 #15211F12', transition:'border-color .12s ease' },
+      };
+    });
+    const stepDots = [0,1,2].map(i => ({ color: i===st.newStep ? '#B45309' : i<st.newStep ? '#3F7A4E' : '#fff' }));
+    const newTitles = ['Where will your bot live?','What\u2019s the mission?','Your scenario is ready'];
+    const newSubs = [
+      'Pick the channel or automation engine you want to practise on. You can rewire it later.',
+      'Choose the job the bot must do and how tough the customer should be.',
+      'Read the brief, then jump into the build. You\u2019ll be graded against these objectives.',
+    ];
+    const newHints = [
+      st.selPlatform ? '↳ nice pick' : '↳ pick one to continue',
+      st.selGoal ? '↳ '+st.selDiff.toLowerCase()+' it is' : '↳ choose a goal',
+      st.genLoading ? '' : '↳ not feeling it? reroll the scenario',
+    ];
+    const newPrimaryLabels = ['Continue','Generate scenario','Start building'];
+    const newDisabled = (st.newStep===0 && !st.selPlatform) || (st.newStep===1 && !st.selGoal) || (st.newStep===2 && (st.genLoading || !st.genScenario));
+    const newPrimaryStyle = {
+      display:'flex', alignItems:'center', gap:'9px', padding:'12px 20px',
+      background: newDisabled ? '#D7D9CB' : orange, color: newDisabled ? '#54605C' : '#fff',
+      border:'2px solid #15211F', borderRadius:'11px', fontFamily:"'Bricolage Grotesque'", fontWeight:700,
+      fontSize:'0.84rem', letterSpacing:'0.02em', textTransform:'uppercase',
+      cursor: newDisabled ? 'not-allowed' : 'pointer', boxShadow:'3px 3px 0 #15211F',
+      opacity: newDisabled ? 0.7 : 1, transition:'transform .12s ease, box-shadow .12s ease',
+    };
+    const genPlat = this.PLATFORMS.find(p=>p.key===st.selPlatform) || this.PLATFORMS[0];
+    const scn = st.genScenario;
+
+    const newVals = {
+      newStep0: st.newStep===0, newStep1: st.newStep===1, newStep2: st.newStep===2,
+      platformGroupsView, goalsView, diffsView, stepDots,
+      newTitle:newTitles[st.newStep], newSubtitle:newSubs[st.newStep], newHint:newHints[st.newStep],
+      newPrimary:this.newPrimaryAction, newPrimaryLabel:newPrimaryLabels[st.newStep], newPrimaryStyle,
+      genLoading: st.newStep===2 && st.genLoading,
+      genReady: st.newStep===2 && !st.genLoading && !!scn,
+      regen:this.regen, genPlatformName:genPlat.name, genPlatformIcon:this.ic(genPlat.key,22),
+      scnBusiness: scn? scn.business : '', scnPersona: scn? scn.persona : '', scnSituation: scn? scn.situation : '',
+      scnObjectives: scn? (scn.objectives||[]).map(o=>({text:o, iconEl:this.ic('check',16)})) : [],
+    };
+
+    /* ---- WORKSPACE ---- */
+    let ws = {};
+    if(st.active && st.scenario){
+      const a = st.active, s = st.scenario;
+      const plat = this.PLATFORMS.find(x=>x.key===a.key) || this.PLATFORMS[0];
+      const goal = this.GOALS.find(g=>g.key===a.goal) || this.GOALS[0];
+      const tint = this.DIFF_TINT[a.difficulty] || this.DIFF_TINT.Intermediate;
+      const tabDefs = [{key:'build',label:'Build',icon:'wrench'},{key:'test',label:'Test',icon:'chat'},{key:'connect',label:'Connect',icon:'flow'}];
+      const tabsView = tabDefs.map(t => ({
+        label:t.label, iconEl:this.ic(t.icon,16), onClick: () => this.setTab(t.key),
+        style:{ display:'flex', alignItems:'center', gap:'8px', padding:'10px 16px',
+          background: st.tab===t.key ? '#E9E8DF' : 'transparent', border:'1.5px solid '+(st.tab===t.key?'#15211F':'transparent'),
+          borderBottom: st.tab===t.key ? '1.5px solid #E9E8DF' : '1.5px solid transparent',
+          borderRadius:'10px 10px 0 0', marginBottom:'-1.5px', cursor:'pointer',
+          fontFamily:"'Bricolage Grotesque'", fontWeight:700, fontSize:'0.84rem',
+          color: st.tab===t.key ? '#15211F' : '#54605C' },
+      }));
+      const tonesView = this.TONES.map(t => ({
+        label:t, onClick: () => this.pickTone(t),
+        style:{ padding:'6px 12px', borderRadius:'20px', cursor:'pointer',
+          fontFamily:"'Bricolage Grotesque'", fontWeight:700, fontSize:'0.76rem',
+          border:'1.5px solid #15211F', background: st.tone===t ? '#15211F' : '#fff', color: st.tone===t ? '#E9E8DF' : '#15211F' },
+      }));
+      const chatView = st.chat.map(m => {
+        const isBot = m.role==='bot';
+        return {
+          isBot,
+          wrap: 'max-width:84%;align-self:'+(isBot?'flex-start':'flex-end')+';animation:popIn .25s ease both;',
+          bubble: isBot
+            ? 'background:#fff;color:#15211F;border:1.5px solid #B9C2B6;border-radius:13px;border-bottom-left-radius:4px;padding:11px 14px;font-size:0.9rem;line-height:1.45;'
+            : 'background:#B45309;color:#fff;border-radius:13px;border-bottom-right-radius:4px;padding:11px 14px;font-size:0.9rem;line-height:1.45;',
+          text:m.text,
+        };
+      });
+      const tempLabel = st.temp<30?'Focused':st.temp<65?'Balanced':'Creative';
+      const tempHint = st.temp<30?'Predictable, on-script replies.':st.temp<65?'A natural mix of reliable and human.':'More variety — riskier on accuracy.';
+      const connectIntros = {
+        n8n:'Drop a Webhook node, paste this URL, and connect it to an AI Agent node that loads your system prompt.',
+        zapier:'Create a Zap with a Webhooks "Catch Hook" trigger and a Code/AI step that calls your model.',
+        make:'Add a Custom Webhook module, then route the payload into an OpenAI/Anthropic module.',
+        whatsapp:'Register this URL as your WhatsApp Cloud API callback. Each inbound message is answered by your model.',
+        messenger:'Set this as your Messenger webhook in the Meta app dashboard and subscribe to message events.',
+        instagram:'Use this as your Instagram messaging webhook to auto-reply to DMs and story replies.',
+        telegram:'Call setWebhook with this URL on your Telegram bot token — that\u2019s the whole setup.',
+        sms:'Point your Twilio number\u2019s "A message comes in" webhook here to reply over SMS.',
+        email:'Forward your support inbox to this endpoint; replies are drafted and sent via your SMTP.',
+        webchat:'Paste one script tag on your site and messages route through this endpoint.',
+        slack:'Add this as your Slack app\u2019s Events URL and subscribe to message events.',
+        discord:'Register this as your Discord interaction endpoint to answer in channels and DMs.',
+        teams:'Set this as your Teams bot messaging endpoint in the Bot Framework portal.',
+        voiceflow:'Use the API step in Voiceflow to call this endpoint for dynamic, model-driven turns.',
+      };
+      const connectStepsMap = {
+        default:[
+          'Copy the inbound webhook URL on the left.',
+          'Add it to '+plat.name+' as the place new messages are sent.',
+          'Map the message text into your model with the system prompt from Build.',
+          'Send the model\u2019s reply back on the same channel — then test a real message.',
+        ],
+      };
+      ws = {
+        wsName:a.name, wsIconEl:this.ic(plat.key,18), wsPlatformName:plat.name, wsGoalName:goal.name,
+        wsDifficulty:a.difficulty, wsDiffBg:tint.bg, wsDiffFg:tint.fg, wsDiffVariant:this.DIFF_VARIANT[a.difficulty]||'amber',
+        wsScoreLabel: st.valState==='done' ? (st.valScore+'%') : (a.score? a.score+'%':'—'),
+        wsScoreColor: (st.valState==='done'?st.valScore:a.score)>=85?'#3F7A4E':(st.valState==='done'?st.valScore:a.score)>=70?'#B45309':(st.valState==='done'?st.valScore:a.score)>0?'#92400E':'#54605C',
+        scnBusiness:s.business, scnPersona:s.persona, scnSituation:s.situation,
+        wsObjectives: (s.objectives||[]).map(o=>({text:o, iconEl:this.ic('target',15), color:orange})),
+        wsTip:'test like a real, slightly annoying customer — that\u2019s where bots crack',
+        tabsView, wsBuild:st.tab==='build', wsTest:st.tab==='test', wsConnect:st.tab==='connect',
+        systemPrompt:st.systemPrompt, onPromptChange:this.onPromptChange,
+        draftLabel: st.draftBusy ? 'Writing…' : 'AI draft', aiDraft:this.aiDraft,
+        tempVal:st.temp, onTempChange:this.onTempChange, tempLabel, tempHint, tonesView,
+        chatView, chatBusy:st.chatBusy, chatInput:st.chatInput, onChatInput:this.onChatInput,
+        onChatKey:this.onChatKey, sendChat:this.sendChat, resetChat:this.resetChat,
+        connectIntro: connectIntros[plat.key] || connectIntros.webchat,
+        webhookUrl:this.webhook(), copyHook:this.copyHook, copyLabel: st.copied?'Copied':'Copy',
+        connectSteps: connectStepsMap.default.map((t,i)=>({n:String(i+1), text:t})),
+        runValidation:this.runValidation,
+        validIdle: st.valState==='idle', validRunning: st.valState==='running', validDone: st.valState==='done',
+        validBtnLabel: st.valState==='running' ? 'Grading…' : st.valState==='done' ? 'Re-run check' : 'Run validation',
+        validBtnIcon: this.ic(st.valState==='done'?'refresh':'spark',16),
+        validResults: st.valResults.map(r => ({
+          label:r.label, note:r.note, pass:r.pass,
+          color: r.pass?'#3F7A4E':'#92400E', border: r.pass?'#3F7A4E55':'#B9C2B6',
+          iconEl: this.ic(r.pass?'check':'plus', 16),
+        })),
+        validVerdict: st.valScore>=85?'Strong build':st.valScore>=70?'Solid, with gaps':st.valScore>=40?'Needs work':'Just getting started',
+        validPassCount: st.valResults.filter(r=>r.pass).length+' of '+st.valResults.length+' objectives met',
+        validTargetEl: React.createElement('span',{style:{color:soft}}, this.ic('target',18)),
+      };
+    }
+
+    /* ---- KEYS ---- */
+    const providersView = this.PROVIDERS.map(p => {
+      const saved = st.savedKey===p.key;
+      const has = !!st.keys[p.key];
+      return {
+        name:p.name, models:p.models, placeholder:p.placeholder, iconEl:this.ic('key',20),
+        value:st.keys[p.key], onChange:this.onKey(p.key), onSave:this.saveKey(p.key),
+        btnLabel: saved ? 'Saved ✓' : has ? 'Update' : 'Save',
+        btnStyle: {
+          flex:'0 0 auto', padding:'10px 16px', borderRadius:'10px', cursor:'pointer',
+          fontFamily:"'Bricolage Grotesque'", fontWeight:700, fontSize:'0.78rem', letterSpacing:'0.03em', textTransform:'uppercase',
+          border:'2px solid #15211F', boxShadow:'3px 3px 0 #15211F', transition:'transform .12s ease, box-shadow .12s ease',
+          background: saved ? '#3F7A4E' : '#15211F', color:'#E9E8DF',
+        },
+      };
+    });
+
+    return {
+      ...base,
+      projectsView, statsView, projectCount:String(st.projects.length),
+      templatesView, activityView, activityEmpty,
+      ...newVals,
+      ...ws,
+      providersView,
+    };
+  }
+}
+</script>
+</body>
+</html>

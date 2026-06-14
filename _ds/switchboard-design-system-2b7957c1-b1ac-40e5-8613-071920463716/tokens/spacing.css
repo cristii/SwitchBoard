@@ -1,0 +1,57 @@
+/* ============================================================
+   Switchboard — Spacing, radii, borders, shadows & motion
+   The signature look = ink outlines + HARD offset shadows
+   (no blur). Shadows are solid ink/orange blocks, not soft.
+   ============================================================ */
+
+:root {
+  /* ---- Spacing scale (8px base) ---- */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  22px;
+  --space-6:  26px;
+  --space-8:  36px;
+  --space-10: 48px;
+  --space-12: 62px;
+
+  /* ---- Layout ---- */
+  --maxw:        1180px;
+  --gutter:      24px;
+  --section-y:   62px;
+
+  /* ---- Radii ---- */
+  --r-sm:  9px;   /* inputs, quick-reply chips */
+  --r:     14px;  /* default card radius */
+  --r-lg:  18px;  /* chat widget, hero surfaces */
+  --r-pill: 20px; /* pills, tags */
+
+  /* ---- Borders (the ink outline system) ---- */
+  --bw-hair:   1px;
+  --bw:        1.5px;  /* default surface outline */
+  --bw-strong: 2px;    /* buttons, chat, portraits */
+  --border:        var(--bw) solid var(--ink);
+  --border-strong: var(--bw-strong) solid var(--ink);
+
+  /* ---- HARD offset shadows (x y blur=0) ---- */
+  --shadow-card:    4px 4px 0 rgba(21,33,31,0.10);  /* resting card */
+  --shadow-raised:  6px 6px 0 rgba(21,33,31,0.14);  /* video / portrait */
+  --shadow-pop:     8px 8px 0 rgba(21,33,31,0.16);  /* chat widget */
+  --shadow-btn:     3px 3px 0 var(--ink);           /* primary button */
+  --shadow-btn-hover: 5px 5px 0 var(--ink);         /* button lifted */
+  --shadow-btn-ghost: 3px 3px 0 rgba(21,33,31,0.18);
+  --shadow-accent:  5px 5px 0 var(--orange);        /* featured plan */
+
+  /* ---- Motion ---- */
+  --ease:        ease; /* @kind other */
+  --dur-fast:    0.12s; /* @kind other */
+  --dur:         0.25s; /* @kind other */
+  --dur-slow:    0.6s; /* @kind other */
+  --lift:        translateY(-2px); /* @kind other */
+
+  /* ============ Semantic aliases ============ */
+  --radius-card:   var(--r);
+  --radius-input:  var(--r-sm);
+  --shadow-default: var(--shadow-card);
+}

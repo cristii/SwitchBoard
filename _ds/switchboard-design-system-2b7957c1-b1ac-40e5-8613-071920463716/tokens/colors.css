@@ -1,0 +1,59 @@
+/* ============================================================
+   Switchboard — Color tokens
+   A warm "paper & ink" palette: recycled-paper neutrals, a deep
+   pine ink, a single burnt-orange accent, plus a quiet green for
+   confirmation. No gradients as identity; flat, printed feel.
+   ============================================================ */
+
+:root {
+  /* ---- Paper neutrals (backgrounds, surfaces) ---- */
+  --paper:        #E9E8DF; /* page background */
+  --paper-2:      #E1E2D7; /* alternating section / inset surface */
+  --paper-3:      #D7D9CB; /* deepest paper, chips & wells */
+  --white:        #FFFFFF; /* cards, inputs, raised surfaces */
+
+  /* ---- Ink (text, borders, dark surfaces) ---- */
+  --ink:          #15211F; /* primary text, hard borders */
+  --ink-soft:     #54605C; /* secondary / muted text */
+  --dark:         #11201E; /* darkest surface (chat head, footer) */
+
+  /* ---- Lines ---- */
+  --line:         #B9C2B6; /* default hairline / input border */
+  --line-soft:    #CBD2C5; /* faint divider */
+
+  /* ---- Brand accent (burnt orange) ---- */
+  --orange:       #B45309; /* primary accent, links, CTA fill */
+  --orange-deep:  #92400E; /* accent border / pressed */
+  --amber:        #FBBF24; /* highlight eyebrow on dark surfaces */
+
+  /* ---- Supporting hues ---- */
+  --green:        #3F7A4E; /* success ticks, "beginner" tag */
+  --violet:       #6A4A8A; /* "advanced" tag only */
+
+  /* ---- Tag tints (paired bg/fg) ---- */
+  --tint-green-bg:  #E6EFE4; --tint-green-fg:  #3F7A4E;
+  --tint-amber-bg:  #FBE8CF; --tint-amber-fg:  #92400E;
+  --tint-violet-bg: #E9E0F0; --tint-violet-fg: #6A4A8A;
+
+  /* ============ Semantic aliases ============ */
+  --bg-page:        var(--paper);
+  --bg-alt:         var(--paper-2);
+  --bg-inverse:     var(--dark);
+  --surface-card:   var(--white);
+  --surface-sunken: var(--paper-3);
+
+  --text-strong:    var(--ink);
+  --text-body:      #232b29;   /* hero/body running text */
+  --text-muted:     var(--ink-soft);
+  --text-on-dark:   var(--paper);
+  --text-on-accent: #FFFFFF;
+
+  --border-strong:  var(--ink);     /* the signature 1.5–2px ink outline */
+  --border-hair:    var(--line);
+  --border-faint:   var(--line-soft);
+
+  --accent:         var(--orange);
+  --accent-deep:    var(--orange-deep);
+  --link:           var(--orange);
+  --focus-ring:     var(--orange);
+}
