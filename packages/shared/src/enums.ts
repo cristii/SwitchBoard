@@ -217,31 +217,31 @@ export const providerDetails: Record<
     slug: "anthropic",
     name: "Anthropic",
     models: "Claude 4 family",
-    placeholder: "sk-ant-..."
+    placeholder: "sk-ant-\u2026"
   },
   [ProviderKind.OPENAI]: {
     slug: "openai",
     name: "OpenAI",
     models: "GPT-4o / o-series",
-    placeholder: "sk-..."
+    placeholder: "sk-\u2026"
   },
   [ProviderKind.GOOGLE]: {
     slug: "google",
     name: "Google",
     models: "Gemini 2.x",
-    placeholder: "AIza..."
+    placeholder: "AIza\u2026"
   },
   [ProviderKind.MISTRAL]: {
     slug: "mistral",
     name: "Mistral",
     models: "Large / Small",
-    placeholder: "..."
+    placeholder: "\u2026"
   },
   [ProviderKind.GROQ]: {
     slug: "groq",
     name: "Groq",
-    models: "Llama 3.x - fast",
-    placeholder: "gsk_..."
+    models: "Llama 3.x \u00B7 fast",
+    placeholder: "gsk_\u2026"
   }
 };
 
@@ -288,4 +288,3 @@ export const activityTypeValues = [
   ActivityType.EDIT,
   ActivityType.KEY
 ] as const;
-

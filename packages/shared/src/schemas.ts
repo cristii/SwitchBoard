@@ -63,6 +63,12 @@ export const providerKeyUpsertSchema = z
   })
   .strict();
 
+export const providerKeyParamSchema = z
+  .object({
+    provider: providerKindSchema
+  })
+  .strict();
+
 export const chatRequestSchema = z
   .object({
     conversationId: z.string().min(1).optional(),
@@ -102,5 +108,5 @@ export const webhookParamSchema = z
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
 export type ProviderKeyUpsertInput = z.infer<typeof providerKeyUpsertSchema>;
+export type ProviderKeyParamInput = z.infer<typeof providerKeyParamSchema>;
 export type ChatRequestInput = z.infer<typeof chatRequestSchema>;
-

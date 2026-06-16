@@ -18,6 +18,7 @@ Milestone 4: BYOK keys (encryption + CRUD + settings UI).
 - [ ] 12. Hardening (rate limits, quotas, retention, observability)
 
 ## Decisions log
+2026-06-15 - Starting Milestone 4 with shared key response contracts before API/UI work - provider key metadata must stay aligned and never expose plaintext secrets.
 2026-06-14 - Extracted `SwitchBoard.zip` in place - the workspace contained the archive but not the spec/UI files at repo root.
 2026-06-14 - Shared package owns enums, Zod schemas, static templates, fallback scenarios, and seed fixtures - keeps API, worker, and web contracts from drifting.
 2026-06-14 - Prisma enum values use uppercase database-safe names while shared metadata carries the design labels/slugs - matches the Prisma schema and preserves UI copy.

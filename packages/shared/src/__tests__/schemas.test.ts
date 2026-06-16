@@ -3,8 +3,11 @@ import {
   ChannelKind,
   Difficulty,
   GoalKind,
+  ProviderKind,
   createProjectSchema,
   gradeTranscriptSchema,
+  providerKeyParamSchema,
+  providerKeySaveResponseSchema,
   providerKeyUpsertSchema,
   updateProjectSchema,
   webhookParamSchema
@@ -55,6 +58,42 @@ describe("shared zod schemas", () => {
       key: "sk-demo-123456"
     });
     expect(() => providerKeyUpsertSchema.parse({ key: "short" })).toThrow();
+    expect(() =>
+      providerKeyUpsertSchema.parse({ key: "sk-demo-123456", provider: ProviderKind.OPENAI })
+    ).toThrow();
+  });
+
+  it("validates provider key params and metadata-only responses", () => {
+    expect(providerKeyParamSchema.parse({ provider: ProviderKind.ANTHROPIC })).toEqual({
+      provider: ProviderKind.ANTHROPIC
+    });
+    expect(() => providerKeyParamSchema.parse({ provider: "anthropic" })).toThrow();
+
+    expect(
+      providerKeySaveResponseSchema.parse({
+        key: {
+          provider: ProviderKind.OPENAI,
+          last4: "3456",
+          createdAt: "2026-06-15T07:30:00.000Z"
+        }
+      })
+    ).toEqual({
+      key: {
+        provider: ProviderKind.OPENAI,
+        last4: "3456",
+        createdAt: "2026-06-15T07:30:00.000Z"
+      }
+    });
+    expect(() =>
+      providerKeySaveResponseSchema.parse({
+        key: {
+          provider: ProviderKind.OPENAI,
+          last4: "3456",
+          ciphertext: "not allowed",
+          createdAt: "2026-06-15T07:30:00.000Z"
+        }
+      })
+    ).toThrow();
   });
 
   it("validates transcript grading output shape", () => {
@@ -83,4 +122,3 @@ describe("shared zod schemas", () => {
     });
   });
 });
-

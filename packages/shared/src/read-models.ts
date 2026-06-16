@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { activityTypeSchema, channelKindSchema, difficultySchema, goalKindSchema } from "./schemas";
+import {
+  activityTypeSchema,
+  channelKindSchema,
+  difficultySchema,
+  goalKindSchema,
+  providerKindSchema
+} from "./schemas";
 
 export const projectListItemSchema = z.object({
   id: z.string().min(1),
@@ -51,10 +57,39 @@ export const activityListResponseSchema = z.object({
   activity: z.array(activityListItemSchema)
 });
 
+export const providerKeySummarySchema = z
+  .object({
+    provider: providerKindSchema,
+    last4: z.string().length(4),
+    createdAt: z.string().datetime()
+  })
+  .strict();
+
+export const providerKeysListResponseSchema = z
+  .object({
+    keys: z.array(providerKeySummarySchema)
+  })
+  .strict();
+
+export const providerKeySaveResponseSchema = z
+  .object({
+    key: providerKeySummarySchema
+  })
+  .strict();
+
+export const providerKeyDeleteResponseSchema = z
+  .object({
+    ok: z.literal(true)
+  })
+  .strict();
+
 export type ProjectListItem = z.infer<typeof projectListItemSchema>;
 export type ProjectStats = z.infer<typeof projectStatsSchema>;
 export type ProjectsListResponse = z.infer<typeof projectsListResponseSchema>;
 export type TemplateListResponse = z.infer<typeof templateListResponseSchema>;
 export type ActivityListItem = z.infer<typeof activityListItemSchema>;
 export type ActivityListResponse = z.infer<typeof activityListResponseSchema>;
-
+export type ProviderKeySummary = z.infer<typeof providerKeySummarySchema>;
+export type ProviderKeysListResponse = z.infer<typeof providerKeysListResponseSchema>;
+export type ProviderKeySaveResponse = z.infer<typeof providerKeySaveResponseSchema>;
+export type ProviderKeyDeleteResponse = z.infer<typeof providerKeyDeleteResponseSchema>;

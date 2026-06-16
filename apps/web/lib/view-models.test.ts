@@ -1,4 +1,4 @@
-import { ActivityType, ChannelKind, Difficulty } from "@switchboard/shared";
+import { ActivityType, ChannelKind, Difficulty, ProviderKind } from "@switchboard/shared";
 import { describe, expect, it } from "vitest";
 import {
   activityMeta,
@@ -6,6 +6,8 @@ import {
   difficultyVariant,
   platformIcon,
   platformName,
+  providerKeyRows,
+  providerSidebarState,
   relativeTime,
   scoreColor
 } from "./view-models";
@@ -40,5 +42,51 @@ describe("web view models", () => {
       color: "#3F7A4E"
     });
   });
-});
 
+  it("maps provider key metadata to the settings rows without exposing secrets", () => {
+    const rows = providerKeyRows(
+      [
+        {
+          provider: ProviderKind.OPENAI,
+          last4: "3456",
+          createdAt: "2026-06-15T08:00:00.000Z"
+        }
+      ],
+      ProviderKind.OPENAI
+    );
+    const openAi = rows.find((row) => row.provider === ProviderKind.OPENAI);
+    const anthropic = rows.find((row) => row.provider === ProviderKind.ANTHROPIC);
+
+    expect(openAi).toMatchObject({
+      name: "OpenAI",
+      placeholder: "Saved key ending in 3456",
+      saved: true,
+      buttonLabel: "Saved \u2713"
+    });
+    expect(anthropic).toMatchObject({
+      name: "Anthropic",
+      saved: false,
+      buttonLabel: "Save"
+    });
+    expect(JSON.stringify(rows)).not.toContain("sk-demo-secret");
+  });
+
+  it("shows the first configured provider in the sidebar state", () => {
+    expect(providerSidebarState([])).toEqual({
+      connected: false,
+      label: "Built-in demo model"
+    });
+    expect(
+      providerSidebarState([
+        {
+          provider: ProviderKind.GROQ,
+          last4: "g123",
+          createdAt: "2026-06-15T08:00:00.000Z"
+        }
+      ])
+    ).toEqual({
+      connected: true,
+      label: "Groq \u00B7 Llama 3.x"
+    });
+  });
+});

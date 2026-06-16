@@ -5,9 +5,13 @@ import {
   activityTypeValues,
   channelDetails,
   difficultyLabels,
+  providerDetails,
+  providerKindValues,
   type ActivityType as ActivityTypeValue,
   type ChannelKind as ChannelKindValue,
-  type Difficulty as DifficultyValue
+  type Difficulty as DifficultyValue,
+  type ProviderKeySummary,
+  type ProviderKind as ProviderKindValue
 } from "@switchboard/shared";
 import type { IconName } from "../components/icons";
 
@@ -84,3 +88,66 @@ export function knownActivityTypes() {
   return activityTypeValues;
 }
 
+export type ProviderKeyRow = {
+  provider: ProviderKindValue;
+  name: string;
+  models: string;
+  placeholder: string;
+  saved: boolean;
+  last4: string | null;
+  buttonLabel: "Save" | "Update" | "Saved \u2713";
+};
+
+export function providerKeyRows(
+  keys: ProviderKeySummary[],
+  recentlySaved?: ProviderKindValue
+): ProviderKeyRow[] {
+  const savedByProvider = new Map(keys.map((key) => [key.provider, key]));
+
+  return providerKindValues.map((provider) => {
+    const saved = savedByProvider.get(provider);
+    const details = providerDetails[provider];
+
+    return {
+      provider,
+      name: details.name,
+      models: details.models,
+      placeholder: saved ? `Saved key ending in ${saved.last4}` : details.placeholder,
+      saved: Boolean(saved),
+      last4: saved?.last4 ?? null,
+      buttonLabel:
+        recentlySaved === provider ? "Saved \u2713" : saved ? "Update" : "Save"
+    };
+  });
+}
+
+export function providerSidebarState(keys: ProviderKeySummary[]): {
+  connected: boolean;
+  label: string;
+} {
+  const first = keys[0];
+
+  if (!first) {
+    return { connected: false, label: "Built-in demo model" };
+  }
+
+  const details = providerDetails[first.provider];
+
+  return {
+    connected: true,
+    label: `${details.name} \u00B7 ${details.models.split("\u00B7")[0].trim()}`
+  };
+}
+
+export function parseProvider(value: string | undefined): ProviderKindValue | undefined {
+  if (!value) return undefined;
+  return providerKindValues.find((provider) => provider === value);
+}
+
+export function providerIcon(_: ProviderKindValue): IconName {
+  return "key";
+}
+
+export function knownProviderKinds() {
+  return providerKindValues;
+}
